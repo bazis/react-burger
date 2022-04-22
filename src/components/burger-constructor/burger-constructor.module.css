@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;    
+}
+
+.drag_list {
+    display: flex;
+    flex-direction: column;    
+    gap: 16px;
+}
+
+.drag_element {
+    display: flex;
+    align-content: center;
+}

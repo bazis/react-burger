@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    align-content: center;    
+}
+
+.drag_icon {
+    width: 32px;
+    align-self: center;    
+}

@@ -1,0 +1,14 @@
+.container {
+    display: flex; 
+    flex-wrap: nowrap; 
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.currency {
+    width: 36px; /*TODO */  
+}
+
+.total {
+    font-size: 48px;   
+}
