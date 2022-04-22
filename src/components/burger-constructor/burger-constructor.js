@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import DragElement from './drag-element/drag-element';
 import CartTotal from './cart-total/cart-total';
 import styles from './burger-constructor.module.css'
+import PropTypes from 'prop-types';
+import { ingredient } from '../../types/index';
 
 class BurgerConstructor extends Component {
     constructor (props) {
@@ -46,6 +48,10 @@ class BurgerConstructor extends Component {
 			</div>	
     	)
   	}
+}
+
+BurgerConstructor.propTypes = {
+	cartIngredients: PropTypes.arrayOf(ingredient).isRequired
 }
 
 export default BurgerConstructor;

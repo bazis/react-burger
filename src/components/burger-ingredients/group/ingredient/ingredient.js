@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styles from './ingredient.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 class Ingredient extends Component {
 	render() {
@@ -19,6 +20,12 @@ class Ingredient extends Component {
 			</div>
 		)
 	}
+}
+
+Ingredient.propTypes = {
+	image: PropTypes.string.isRequired,
+	price: PropTypes.number.isRequired,
+	item_name: PropTypes.string.isRequired
 }
 
 export default Ingredient;

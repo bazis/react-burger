@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "../icon-button/icon-button.module.css";
+import PropTypes from 'prop-types';
 
 class IconButton extends React.Component {
 	render() {
@@ -16,5 +17,9 @@ class IconButton extends React.Component {
 		)
 	}
 }
+
+IconButton.propTypes = {		
+	text: PropTypes.string.isRequired	
+};
 
 export default IconButton;

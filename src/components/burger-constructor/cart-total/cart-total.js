@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styles from './cart-total.module.css'
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+
 
 export default class CartTotal extends Component {
   render() {
@@ -20,4 +22,8 @@ export default class CartTotal extends Component {
 		</div>
 	)
   }
+}
+
+CartTotal.propTypes = {
+	total: PropTypes.number.isRequired
 }

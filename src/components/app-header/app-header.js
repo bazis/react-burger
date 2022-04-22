@@ -2,6 +2,7 @@ import React from 'react';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 import IconButton from './icon-button/icon-button';
+import PropTypes from 'prop-types';
 
 
 class AppHeader extends React.Component {	
@@ -29,6 +30,10 @@ class AppHeader extends React.Component {
 			</nav> 
 		)
 	};
+}
+
+AppHeader.propTypes = {
+	activePage:  PropTypes.string.isRequired
 }
 
 export default AppHeader;
