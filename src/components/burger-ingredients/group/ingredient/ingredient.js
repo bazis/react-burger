@@ -3,7 +3,7 @@ import styles from './ingredient.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 class Ingredient extends Component {
-render() {
+	render() {
 		return (
 			<div className = {styles.container}>
 				<img className = {styles.image} src={this.props.image} alt={this.props.item_name}/>
@@ -20,6 +20,5 @@ render() {
 		)
 	}
 }
-
 
 export default Ingredient;
