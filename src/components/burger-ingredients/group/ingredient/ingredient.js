@@ -8,13 +8,13 @@ class Ingredient extends Component {
 		return (
 			<div className = {styles.container}>
 				<img className = {styles.image} src={this.props.image} alt={this.props.item_name}/>
-				<div>
-					<span className = {`${styles.price} pr-1`}>
+				<div className = {styles.price}>
+					<span className = "text_type_digits-default pr-1">
 						{this.props.price}
 					</span>
-					<CurrencyIcon type = "primary"/>
+					<CurrencyIcon type = "primary"/> {/* TODO выровнять по вертикали*/}
 				</div>
-				<div className={styles.item_name}>
+				<div className = {`${styles.item_name} text_type_main-default`}>
 					{this.props.item_name}
 				</div>
 			</div>

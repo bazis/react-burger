@@ -1,10 +1,15 @@
-.title {  
-    font-style: normal;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 40px;
+.container {
+    max-width: 600px;  
 }
 
 .tabs {
     display: flex;
+}
+
+.groups {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  /* FIXME применяется и к дочерним */
+    overflow-y: scroll;
+    height: calc(100vh - 230px);         
 }

@@ -18,18 +18,18 @@ class BurgerIngredients extends React.Component {
 
     render() {
 		return (
-            <div className = "pt-2"> {/*TODO почему паддинг не 10? */}
-                <h1 className = {styles.title}>Соберите бургер</h1>
+            <div className = {`${styles.container} pt-2`}> {/*TODO почему паддинг не 10? */}
+                <h1 className = "text_type_main-large">Соберите бургер</h1>
                 <nav className = {styles.tabs}>          
                     {this.groupsArr.map((group, index) => (
                         <Tab key = {index}>{Object.values(group)[0]}</Tab>        
                     ))}                    
                 </nav>
-                <section className = "mt-10">
+                <section className = {`${styles.groups} custom-scroll`}>
                     {this.groupsArr.map((group, index) => (
                         <Group 
                             key = {index} 
-                            title = {Object.values(group)[0]}                             
+                            title = {Object.values(group)[0]}                          
                             ingredients = {this.props.ingredientsAll.filter(ingr => Object.keys(group)[0] === ingr.type)} 
                         />
                     ))}               

@@ -1,12 +1,14 @@
 .container {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column; 
 }
 
 .drag_list {
     display: flex;
     flex-direction: column;    
     gap: 16px;
+    overflow-y: scroll;
+    height: calc(100vh - 280px);  
 }
 
 .drag_element {

@@ -9,7 +9,7 @@ class Group extends Component {
   	render() {
 		return (
 	  		<>
-				<h2>{this.props.title}</h2>
+				<h2 className = "text_type_main-medium">{this.props.title}</h2>
 				<div className = {styles.container}>         
 					{this.props.ingredients.map((ingredient, index)=>(
 						<Ingredient 

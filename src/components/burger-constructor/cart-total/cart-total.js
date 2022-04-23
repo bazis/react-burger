@@ -8,7 +8,7 @@ export default class CartTotal extends Component {
   render() {
 	return (
 		<div className = {`${styles.container} mt-10`}>
-			<div className = {`${styles.total} mr-2`}>
+			<div className = "text_type_digits-medium mr-2">
 				{this.props.total}				
 			</div>
 			<div className = {styles.currency}>

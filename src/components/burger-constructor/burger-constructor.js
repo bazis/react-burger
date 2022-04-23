@@ -34,7 +34,7 @@ class BurgerConstructor extends Component {
     render() {
         return (
 			<div className = {`${styles.container} pt-25 ml-10`}>
-				<section className = {styles.drag_list}>
+				<section className = {`${styles.drag_list} custom-scroll pr-2`}>
 					{this.state.cartIngredients.map((ingredient, index) => (
 						<DragElement 
 							className = {styles.drag_element}							
