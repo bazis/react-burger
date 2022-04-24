@@ -5,43 +5,40 @@ import Group from './group/group';
 import PropTypes from 'prop-types';
 import { ingredient } from '../../types/index';
 
-class BurgerIngredients extends React.Component {
-	constructor(props) {
-		super(props);
-    }
-
-    groupsArr = [
+export default function BurgerIngredients(props) {
+    const groupsArr = [
         {bun: 'Булки'}, 
         {sauce: 'Соусы'}, 
         {main: 'Начинки'}
-    ]
+    ];    
+ 
 
-    render() {
-		return (
+    return (
+        <>
             <div className = {`${styles.container} pt-2`}> {/*TODO почему паддинг не 10? */}
                 <h1 className = "text_type_main-large">Соберите бургер</h1>
                 <nav className = {styles.tabs}>          
-                    {this.groupsArr.map((group, index) => (
+                    {groupsArr.map((group, index) => (
                         <Tab key = {index}>{Object.values(group)[0]}</Tab>        
                     ))}                    
                 </nav>
                 <section className = {`${styles.groups} custom-scroll`}>
-                    {this.groupsArr.map((group, index) => (
+                    {groupsArr.map((group, index) => (
                         <Group 
                             key = {index} 
                             title = {Object.values(group)[0]}                          
-                            ingredients = {this.props.ingredientsAll.filter(ingr => Object.keys(group)[0] === ingr.type)} 
+                            ingredients = {props.ingredientsAll.filter(ingr => Object.keys(group)[0] === ingr.type)} 
                         />
                     ))}               
                 </section>            
             </div>
-        )
-    }
+            
+                       
+        </>    
+    )
 }
 
 BurgerIngredients.propTypes = {
 	ingredientsAll: PropTypes.arrayOf(ingredient).isRequired
 }
 
-
-export default BurgerIngredients;
