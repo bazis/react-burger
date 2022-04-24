@@ -1,0 +1,17 @@
+.windowBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 520px;   
+    margin: 0 auto;
+}
+
+.calories {
+    list-style: none;
+    display: flex;
+    gap: 20px;    
+}
+
+.caloriesItem {
+    text-align: center;
+}

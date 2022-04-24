@@ -4,24 +4,25 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import PropTypes from 'prop-types';
 
 
-export default class CartTotal extends Component {
-  render() {
+export default function CartTotal(props) {
 	return (
 		<div className = {`${styles.container} mt-10`}>
 			<div className = "text_type_digits-medium mr-2">
-				{this.props.total}				
+				{props.total}				
 			</div>
 			<div className = {styles.currency}>
 				<CurrencyIcon type = "primary"/>
 			</div>			
 			<div className = "pl-10">
-				<Button  type = "primary" size = "large">
-					Оформить заказ
+				<Button  
+					type = "primary" 
+					size = "large"
+					onClick = {props.showOrderDetails}>
+						Оформить заказ
 				</Button>
 			</div>
 		</div>
 	)
-  }
 }
 
 CartTotal.propTypes = {
