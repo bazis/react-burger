@@ -6,7 +6,9 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 
 export default function App() {
-	const apiURL = 'https://norma.nomoreparties.space/api/ingredients';
+	//const apiURL = 'https://norma.nomoreparties.space/api/ingredients';	//этот URL часто отваливается по таймауту
+	const apiURL = 'https://api.codetabs.com/v1/proxy/?quest=https://fr.upravdom.duckdns.org/wl/?id=fNTuij9V6KeE1A0sa4ndGSpxFdg0s0iq&fmode=open';	
+
 	const [state, setState] = React.useState(
 		{
 			activePage: 'Конструктор',
@@ -30,7 +32,12 @@ export default function App() {
 	React.useEffect(() => {		
 		const getIngredients = () => {
 			fetch(apiURL)
-				.then((res) => res.json())
+				.then((res) => {
+					if(res.ok) {
+						return res.json();
+					}
+					return Promise.reject(res.status);				
+				}) 
 				.then((res) => {
 					if(res && res.success) {
 						setState({ ...state, ingredientsAll: res.data, isLoading: false });       
