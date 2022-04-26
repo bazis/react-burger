@@ -1,0 +1,14 @@
+.windowBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;       
+}
+
+.doneImage {
+    width: 120px;
+    height: 120px;    
+}
+
+.centerText {
+    text-align: center;
+}

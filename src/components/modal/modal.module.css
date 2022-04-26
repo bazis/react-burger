@@ -1,0 +1,16 @@
+.window {
+    border-radius: 40px;
+    width: 720px;
+    background-color: #1C1C21;
+    align-items: center;
+}
+
+.title {
+    display: flex;    
+    justify-content: space-between;
+    width: 720px; 
+}
+
+.closeButton {
+    cursor: pointer;
+}

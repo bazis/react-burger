@@ -4,29 +4,22 @@ import styles from './group.module.css'
 import PropTypes from 'prop-types';
 import { ingredient } from '../../../types/index';
 
-
-class Group extends Component {
-  	render() {
-		return (
-	  		<>
-				<h2 className = "text_type_main-medium">{this.props.title}</h2>
-				<div className = {styles.container}>         
-					{this.props.ingredients.map((ingredient, index)=>(
-						<Ingredient 
-							key = {ingredient._id}
-							item_name = {ingredient.name}
-							price = {ingredient.price}
-							image = {ingredient.image}              
-						/>
-					))} 
-				</div>
-	  		</>
-		)
-  	}
+export default function Group(props) {
+	return (
+		<>
+		  <h2 className = "text_type_main-medium">{props.title}</h2>
+		  <div className = {styles.container}>         
+			  {props.ingredients.map((ingredient, index)=>(
+				  <Ingredient 
+					  key = {ingredient._id}
+					  {...ingredient}
+				  />
+			  ))} 
+		  </div>
+		</>
+  )
 }
 
 Group.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredient).isRequired
 }
-
-export default Group
