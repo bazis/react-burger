@@ -3,11 +3,12 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { AppDataContext } from '../../services/app-data-context'
 
 
 export default function App() {
-	//const apiURL = 'https://norma.nomoreparties.space/api/ingredients';	//этот URL часто отваливается по таймауту
-	const apiURL = 'https://api.codetabs.com/v1/proxy/?quest=https://fr.upravdom.duckdns.org/wl/?id=fNTuij9V6KeE1A0sa4ndGSpxFdg0s0iq&fmode=open';	
+	const apiURL = 'https://norma.nomoreparties.space/api/ingredients';	//этот URL часто отваливается по таймауту
+	//const apiURL = 'https://api.codetabs.com/v1/proxy/?quest=https://fr.upravdom.duckdns.org/wl/?id=fNTuij9V6KeE1A0sa4ndGSpxFdg0s0iq&fmode=open';	
 
 	const [state, setState] = React.useState(
 		{
@@ -24,10 +25,11 @@ export default function App() {
 				'60d3b41abdacab0026a733ce',
 				'60d3b41abdacab0026a733d1',
 				'60d3b41abdacab0026a733d3'
-			]
+			],
+			orderNumber: 0,
+			orderStatus: 'Оформление...'
 		}
 	);
-
 	
 	React.useEffect(() => {		
 		const getIngredients = () => {
@@ -56,22 +58,23 @@ export default function App() {
 	return (
 		<>
 			<AppHeader activePage = {state.activePage}/>
-			<main className={styles.main}>
-				{!state.hasError ? (
-					<>
-						<BurgerIngredients 
-							ingredientsAll = {state.ingredientsAll} 
-							className = {`${styles.section} pt-10`}
-						/>
-						<BurgerConstructor 
-							cartIngredients = {state.ingredientsAll.filter(ingr => state.cartIngredients.indexOf(ingr._id) !== -1)} 
-							className = {`${styles.section} pt-25`}
-						/>
-					</>
-				) : (
-					<h1>Ошибка загрузки данных</h1>	
-				)}
-			</main>
+			<AppDataContext.Provider value = {{state, setState}}>
+				<main className={styles.main}>
+					{!state.hasError ? (
+						<>
+							<BurgerIngredients 
+								ingredientsAll = {state.ingredientsAll} 
+								className = {`${styles.section} pt-10`}
+							/>
+							<BurgerConstructor 								
+								className = {`${styles.section} pt-25`}
+							/>
+						</>
+					) : (
+						<h1>Ошибка загрузки данных</h1>	
+					)}
+				</main>
+			</AppDataContext.Provider>
 		</>
 	);
 }
