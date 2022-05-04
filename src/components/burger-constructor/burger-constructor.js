@@ -3,15 +3,15 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import DragElement from './drag-element/drag-element';
 import CartTotal from './cart-total/cart-total';
 import styles from './burger-constructor.module.css'
-import PropTypes from 'prop-types';
-import { ingredient } from '../../types/index';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { AppDataContext } from '../../services/app-data-context' 
+import { AppDataContext } from '../../services/app-data-context';
+import { baseUrl } from '../../services/rest-api'; 
+import { checkResponse } from '../../utils/check-response';
 
 
-export default function BurgerConstructor(props) {
-	const orderURL = 'https://norma.nomoreparties.space/api/orders';
+export default function BurgerConstructor() {	
+	const orderPath = '/orders';
 	
 	const {state, setState} = useContext(AppDataContext);
 
@@ -19,19 +19,14 @@ export default function BurgerConstructor(props) {
 
 	const getOrderNumber = () => {
 		if(state.cartIngredients) {
-			fetch(orderURL, { 
+			fetch(baseUrl + orderPath, { 
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify( { "ingredients" : state.cartIngredients }) 
 			})
-				.then((res) => {
-					if(res.ok) {
-						return res.json();
-					}
-					return Promise.reject(res.status);				
-				}) 
+				.then(checkResponse) 
 				.then((res) => {				
 					if(res && res.success) {
 						setState({ ...state, orderNumber: res.order.number, orderStatus: "ok"}); 					 

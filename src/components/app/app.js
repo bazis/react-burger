@@ -3,12 +3,13 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { AppDataContext } from '../../services/app-data-context'
+import { AppDataContext } from '../../services/app-data-context';
+import { baseUrl } from '../../services/rest-api';
+import { checkResponse } from '../../utils/check-response';
 
 
 export default function App() {
-	const apiURL = 'https://norma.nomoreparties.space/api/ingredients';	//этот URL часто отваливается по таймауту
-	//const apiURL = 'https://api.codetabs.com/v1/proxy/?quest=https://fr.upravdom.duckdns.org/wl/?id=fNTuij9V6KeE1A0sa4ndGSpxFdg0s0iq&fmode=open';	
+	const ingredientsPath = '/ingredients';	
 
 	const [state, setState] = React.useState(
 		{
@@ -33,13 +34,8 @@ export default function App() {
 	
 	React.useEffect(() => {		
 		const getIngredients = () => {
-			fetch(apiURL)
-				.then((res) => {
-					if(res.ok) {
-						return res.json();
-					}
-					return Promise.reject(res.status);				
-				}) 
+			fetch(baseUrl + ingredientsPath)
+				.then(checkResponse) 
 				.then((res) => {
 					if(res && res.success) {
 						setState({ ...state, ingredientsAll: res.data, isLoading: false });       
@@ -62,8 +58,7 @@ export default function App() {
 				<main className={styles.main}>
 					{!state.hasError ? (
 						<>
-							<BurgerIngredients 
-								ingredientsAll = {state.ingredientsAll} 
+							<BurgerIngredients 							
 								className = {`${styles.section} pt-10`}
 							/>
 							<BurgerConstructor 								
