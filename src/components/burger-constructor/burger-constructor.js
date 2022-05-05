@@ -1,45 +1,76 @@
-import React, { Component } from 'react';
+import React, { useContext,  useState} from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import DragElement from './drag-element/drag-element';
 import CartTotal from './cart-total/cart-total';
 import styles from './burger-constructor.module.css'
-import PropTypes from 'prop-types';
-import { ingredient } from '../../types/index';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { AppDataContext } from '../../services/app-data-context';
+import { baseUrl } from '../../services/rest-api'; 
+import { checkResponse } from '../../utils/check-response';
 
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor() {	
+	const orderPath = '/orders';
+	
+	const {state, setState} = useContext(AppDataContext);
 
-	const [state, setState] = React.useState({
-		total: 610,
-		cartIngredients: []
-	});
+	const [showModal, setShowModal] = useState(false);	
 
-	const [showModal, setShowModal] = React.useState(false);
+	const getOrderNumber = () => {
+		if(state.cartIngredients) {
+			fetch(baseUrl + orderPath, { 
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify( { "ingredients" : state.cartIngredients }) 
+			})
+				.then(checkResponse) 
+				.then((res) => {				
+					if(res && res.success) {
+						setState({ ...state, orderNumber: res.order.number, orderStatus: "ok"}); 					 
+					}else {
+						setState({ ...state, orderStatus: "Ошибка при заказе"}); 			
+					}
+				})
+				.catch((e) => {
+					setState({ ...state, orderStatus: "Ошибка при заказе"}); 	
+				})		
+		}
+		return 0;
+	}
 
     const openModalWindow = () => {
-		setShowModal(true);
+		setShowModal(true);	
+		getOrderNumber();	
     }
 	const closeModalWindow = () => {
 		setShowModal(false);
     }
-	const getOrderNumber = () => {
-		//тут будет POST
-		return 435345436;
-	}
+	
 
-	let bun = null;
+	let bun = null,
+		cartIngredients = [],
+		cartTotal = 0;
 
-	if (props.cartIngredients.length) {	
-		state.cartIngredients = props.cartIngredients;
+	if (state.cartIngredients.length) {		
+		cartIngredients = state.ingredientsAll.filter(ingr => state.cartIngredients.indexOf(ingr._id) !== -1);
+
+		cartTotal = cartIngredients.reduce(
+			(total, currentItem) => total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price),
+			0
+		);
+
 
 		//находим булку в ингридиентах
-		bun = state.cartIngredients.find(ingr => ingr.type === 'bun');		
+		bun = cartIngredients.find(ingr => ingr.type === 'bun');		
 		if(bun) {
 			//убираем булки из ингридиентов
-			state.cartIngredients = state.cartIngredients.filter(ingr => ingr.type !== 'bun');
-		}									
+			cartIngredients = cartIngredients.filter(ingr => ingr.type !== 'bun');
+		}	
+		
+		//setState({ ...state, total: cartTotal }); //Тут уходит в бесконечную рекурсию
 	}		
 
 	return (
@@ -56,7 +87,7 @@ export default function BurgerConstructor(props) {
 						</div> }
 
 				<section className = {`${styles.drag_list} custom-scroll pr-2 mt-4 mb-4`}>
-					{state.cartIngredients.map((ingredient, index) => (
+					{cartIngredients.map((ingredient, index) => (
 						<DragElement 
 							className = {styles.drag_element}							
 							key = {ingredient._id}
@@ -76,22 +107,20 @@ export default function BurgerConstructor(props) {
 						</div> }
 
 				<CartTotal 
-					total = {state.total} 
+					total = {cartTotal} 
 					showOrderDetails = {openModalWindow}
 				/>  
 			</div>	
 
-			<Modal 
+			{showModal && <Modal 
 				visible = {showModal} 				
 				onModalClose = {closeModalWindow}>
-					<OrderDetails orderNumber = {getOrderNumber()} />
-			</Modal> 
+					<OrderDetails 
+						orderNumber = {state.orderNumber} 
+						orderStatus = {state.orderStatus}
+					/>
+			</Modal> }
 		</>	
 	)
 
-}
-
-
-BurgerConstructor.propTypes = {
-	cartIngredients: PropTypes.arrayOf(ingredient).isRequired
 }

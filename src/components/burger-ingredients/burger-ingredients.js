@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import Group from './group/group';
-import PropTypes from 'prop-types';
-import { ingredient } from '../../types/index';
+import { AppDataContext } from '../../services/app-data-context';
 
-export default function BurgerIngredients(props) {
+export default function BurgerIngredients() {
     const groupsArr = [
         {bun: 'Булки'}, 
         {sauce: 'Соусы'}, 
         {main: 'Начинки'}
     ];    
+
+    const {state, setState} = useContext(AppDataContext);
  
 
     return (
@@ -27,18 +28,12 @@ export default function BurgerIngredients(props) {
                         <Group 
                             key = {index} 
                             title = {Object.values(group)[0]}                          
-                            ingredients = {props.ingredientsAll.filter(ingr => Object.keys(group)[0] === ingr.type)} 
+                            ingredients = {state.ingredientsAll.filter(ingr => Object.keys(group)[0] === ingr.type)} 
                         />
                     ))}               
                 </section>            
-            </div>
-            
-                       
+            </div>     
         </>    
     )
-}
-
-BurgerIngredients.propTypes = {
-	ingredientsAll: PropTypes.arrayOf(ingredient).isRequired
 }
 

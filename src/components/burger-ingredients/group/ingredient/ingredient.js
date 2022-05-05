@@ -20,15 +20,15 @@ export default function Ingredient(props) {
 	return (
 		<>
 			<div className = {styles.container} onClick={openModalWindow}>
-				<img className = {styles.image} src={props.image} alt={props.name}/>
+				<img className = {styles.image} src={props.ingredientObj.image} alt={props.ingredientObj.name}/>
 				<div className = {styles.price}>
 					<span className = "text_type_digits-default pr-1">
-						{props.price}
+						{props.ingredientObj.price}
 					</span>
 					<CurrencyIcon type = "primary"/> {/* TODO выровнять по вертикали*/}
 				</div>
 				<div className = {`${styles.itemName} text_type_main-default`}>
-					{props.name}
+					{props.ingredientObj.name}
 				</div>
 			</div>
 			
@@ -36,13 +36,13 @@ export default function Ingredient(props) {
 				visible = {showModal} 
 				title = "Детали ингридиента"
 				onModalClose = {closeModalWindow}>
-					<IngredientDetails {...props} />
+					<IngredientDetails ingredientObj = {props.ingredientObj} />
 			</Modal> 
 		</>	
 	)
 }
 
 Ingredient.propTypes = {
-	props: ingredient
+	ingredientObj: ingredient
 }
 

@@ -6,9 +6,9 @@ export default function IngredientDetails(props) {
 
 	return (
 		<div className = {styles.windowBody}>
-			<img src={props.image_large} alt={props.name}/>             
+			<img src={props.ingredientObj.image_large} alt={props.ingredientObj.name}/>             
 			<div className = "mt-4 text text_type_main-default">
-                {props.name}
+                {props.ingredientObj.name}
 			</div>
             <ul className = {`${styles.calories} mt-8`}>
                 <li className = {styles.caloriesItem}>
@@ -16,7 +16,7 @@ export default function IngredientDetails(props) {
                         Калории, калл
                     </div>       
                     <div className = "text text_type_digits-default text_color_inactive">
-                        {props.calories}
+                        {props.ingredientObj.calories}
                     </div>                                  
                 </li>
                 <li className = {styles.caloriesItem}>
@@ -24,7 +24,7 @@ export default function IngredientDetails(props) {
                         Белки, г
                     </div>       
                     <div className = "text text_type_digits-default text_color_inactive">
-                        {props.proteins}
+                        {props.ingredientObj.proteins}
                     </div>                                  
                 </li>
                 <li className = {styles.caloriesItem}>
@@ -32,7 +32,7 @@ export default function IngredientDetails(props) {
                         Жиры, г
                     </div>       
                     <div className = "text text_type_digits-default text_color_inactive">
-                        {props.fat}
+                        {props.ingredientObj.fat}
                     </div>                                  
                 </li>
                 <li className = {styles.caloriesItem}>
@@ -40,7 +40,7 @@ export default function IngredientDetails(props) {
                         Углеводы, г
                     </div>       
                     <div className = "text text_type_digits-default text_color_inactive">
-                        {props.carbohydrates}
+                        {props.ingredientObj.carbohydrates}
                     </div>                                  
                 </li>
             </ul>			
@@ -49,7 +49,7 @@ export default function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-	props: ingredient
+	ingredientObj: ingredient
 }
 
 
