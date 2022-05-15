@@ -4,6 +4,11 @@
     align-items: center;
     width: 272px;
     gap: 4px;
+    position: relative;
+}
+
+.container:hover {
+    cursor: move;
 }
 
 .image {

@@ -7,7 +7,7 @@ export default function OrderDetails(props) {
 
 	return (
 		<div className = {styles.windowBody}>
-			{props.orderStatus === 'ok' ? (
+			{props.orderNumber !== 0 ? (
 				<>
 					<div className = {`${styles.centerText} text_type_digits-large `}>
 						{props.orderNumber}

@@ -1,62 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { AppDataContext } from '../../services/app-data-context';
-import { baseUrl } from '../../services/rest-api';
-import { checkResponse } from '../../utils/check-response';
+import {useDispatch, useSelector} from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { getIngredients } from '../../services/actions/ingredients';
 
 
 export default function App() {
-	const ingredientsPath = '/ingredients';	
-
-	const [state, setState] = React.useState(
-		{
-			activePage: 'Конструктор',
-			ingredientsAll: [],
-			isLoading: false,
-			hasError: false,
-			cartIngredients: [
-				'60d3b41abdacab0026a733c6',
-				'60d3b41abdacab0026a733c8',
-				'60d3b41abdacab0026a733c9',			
-				'60d3b41abdacab0026a733cb',
-				'60d3b41abdacab0026a733cc',
-				'60d3b41abdacab0026a733ce',
-				'60d3b41abdacab0026a733d1',
-				'60d3b41abdacab0026a733d3'
-			],
-			orderNumber: 0,
-			orderStatus: 'Оформление...'
-		}
-	);
 	
-	React.useEffect(() => {		
-		const getIngredients = () => {
-			fetch(baseUrl + ingredientsPath)
-				.then(checkResponse) 
-				.then((res) => {
-					if(res && res.success) {
-						setState({ ...state, ingredientsAll: res.data, isLoading: false });       
-					}else {
-						setState({ ...state, hasError: true, isLoading: false });
-					}
-				})
-				.catch((e) => {
-					setState({ ...state, hasError: true, isLoading: false })
-				})	
-		}
-		getIngredients();		
-	}, []);
+	// const initialState =  {
+	// 	activePage: 'Конструктор',
+	// 	ingredientsAll: [],		
+	// 	cartIngredients: [],
+	// 	ingredientsLoadError: false,
+	// 	order: {
+	// 		number: 0,
+	// 		status: 'Оформление...'
+	// 	}
+	// };
 
+	const dispatch = useDispatch();
 
+	useEffect(() => {
+		dispatch(getIngredients());	
+	}, [dispatch]);
+	
+	const {
+		ingredientsAll, 
+		ingredientsRequestFailed, 
+		ingredientsRequestInProgress} = useSelector(store => store.ingredients);
+	
 	return (
 		<>
-			<AppHeader activePage = {state.activePage}/>
-			<AppDataContext.Provider value = {{state, setState}}>
+			<AppHeader activePage = "Конструктор"/>		
+			<DndProvider backend={HTML5Backend}>
 				<main className={styles.main}>
-					{!state.hasError ? (
+					{ingredientsAll.length ?(
 						<>
 							<BurgerIngredients 							
 								className = {`${styles.section} pt-10`}
@@ -64,12 +47,13 @@ export default function App() {
 							<BurgerConstructor 								
 								className = {`${styles.section} pt-25`}
 							/>
-						</>
-					) : (
-						<h1>Ошибка загрузки данных</h1>	
-					)}
-				</main>
-			</AppDataContext.Provider>
+						</> ) : (null)
+					}
+
+					{ingredientsRequestFailed && <h1>Ошибка загрузки данных</h1> }
+					{ingredientsRequestInProgress &&  <h1>Загрузка...</h1> }
+				</main>		
+			</DndProvider>	
 		</>
 	);
 }
