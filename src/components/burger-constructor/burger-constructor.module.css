@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column; 
+    min-width: 500px;    
 }
 
 .drag_list {
@@ -18,4 +19,8 @@
 
 .bun {
     margin-left: 30px;
+}
+
+.dropTarget {
+    border: 1px dashed;
 }
