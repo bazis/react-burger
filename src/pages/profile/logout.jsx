@@ -8,8 +8,6 @@ export function Logout() {
 	const currentUser = useSelector(store => store.user.currentUser);
 	const { requestInProgress, requestSuccess } = useSelector(store => store.user.logout);
 
-console.log('Logout',requestInProgress, currentUser)
-
 	if(!currentUser) {
 		return <Redirect to = "/login" />;
 	}

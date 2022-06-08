@@ -4,3 +4,11 @@
 	align-content: space-evenly;
 	justify-content: center;
 }
+
+.link {
+	text-decoration: none;
+}
+
+.text_color_primary span {
+	color: #FFF !important; /** FIXME */
+}

@@ -50,7 +50,7 @@ export default function App() {
 	
 	return (
 		<>
-			<AppHeader activePage = "Конструктор" currentUserName = {currentUser?.name}/>				
+			<AppHeader currentUserName = {currentUser?.name}/>				
 			<Switch location = {prevLocation || location}>
 				<Route path="/" exact>
 					<DndProvider backend={HTML5Backend}>

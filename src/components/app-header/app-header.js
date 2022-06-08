@@ -3,34 +3,37 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import IconButton from './icon-button/icon-button';
 import PropTypes from 'prop-types';
-import {NavLink} from 'react-router-dom';
+import { NavLink, useLocation, Link  } from 'react-router-dom';
 
-export default function AppHeader({activePage, currentUserName}) {
-	function getIconCls(page) {
-		return (activePage === page) ? 'primary' : 'secondary';
+export default function AppHeader({ currentUserName}) {
+
+	const { pathname } = useLocation();
+
+	function getIconCls(path) {
+		return (pathname === path) ? 'primary' : 'secondary';
 	}
-
-	//TODO подсвечивать активные ссылки
 
 	return (
 		<nav className = {styles.header}>
-			<NavLink to={{ pathname: '/' }} activeClassName = "text_color_primary" >
-				<IconButton	text = 'Конструктор' activePage = {activePage}>		
-					<BurgerIcon type = {getIconCls('Конструктор')}/>
+			<NavLink to={{ pathname: '/' }} exact activeClassName = "text_color_primary" >
+				<IconButton	text = 'Конструктор'>		
+					<BurgerIcon type = {getIconCls('/')}/>
 				</IconButton>
 			</NavLink>	
 
-			<NavLink to={{ pathname: '/orders' }} >
-				<IconButton	text = 'Лента заказов' activePage = {activePage}>		
-					<ListIcon type = {getIconCls('Лента заказов')}/>
+			<NavLink to = {{ pathname: '/orders' }} exact activeClassName = "text_color_primary">
+				<IconButton	text = 'Лента заказов'>		
+					<ListIcon type = {getIconCls('/orders')}/>
 				</IconButton>				
 			</NavLink>
 
-			<Logo />
+			<Link to = {"/"} className = {styles.link}>
+				<Logo />
+			</Link>	
 
-			<NavLink to={{ pathname: '/profile' }} >
-				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'} activePage = {activePage}>		
-					<ProfileIcon type = {getIconCls('Личный кабинет')}/>
+			<NavLink to = {{ pathname: '/profile' }} activeClassName = "text_color_primary">
+				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'}>		
+					<ProfileIcon type = {getIconCls('/profile')}/>
 				</IconButton>				
 			</NavLink>
 		</nav> 
