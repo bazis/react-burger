@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 import Group from './group/group';
 import IngredientDetails from '../ingredients-details/ingredients-details';
 import Modal from '../modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HIDE_INGREDIENT_DETAILS } from '../../services/actions/ingredients';
 
 export default function BurgerIngredients() {
@@ -16,17 +16,8 @@ export default function BurgerIngredients() {
 
 	const [activeTab, setActiveTab] = useState('bun');
  
-	const ingredientsAll = useSelector(store => store.ingredients.ingredientsAll) || [];
-	const selectedIngredient = useSelector(store => store.ingredients.selectedIngredient);
-		
-	const dispatch = useDispatch();	
-
-	const closeModalWindow = () => {
-		dispatch({
-			type: HIDE_INGREDIENT_DETAILS			
-		});
-	}
-
+	const ingredientsAll = useSelector(store => store.ingredients.ingredientsAll) || [];	
+	
 	const onTabClick = (tab) => {
 		setActiveTab(tab);	
 		const group = document.getElementById('group_' + tab);		
@@ -76,14 +67,7 @@ export default function BurgerIngredients() {
 						/>
 					))}               
 				</section>            
-			</div> 
-
-			{selectedIngredient && <Modal 
-				visible = {selectedIngredient !== null} 
-				title = "Детали ингридиента"
-				onModalClose = {closeModalWindow}>
-					<IngredientDetails ingredientObj = {selectedIngredient} />
-			</Modal> }    
+			</div>  
 		</>    
 	)
 }

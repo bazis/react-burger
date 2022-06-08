@@ -1,9 +1,7 @@
 import {
 	GET_INGREDIENTS_REQUEST,
 	GET_INGREDIENTS_REQUEST_SUCCESS,
-	GET_INGREDIENTS_REQUEST_FAILED,
-	SHOW_INGREDIENT_DETAILS,
-	HIDE_INGREDIENT_DETAILS
+	GET_INGREDIENTS_REQUEST_FAILED
 } from '../actions/ingredients';
 
 const initialState = {
@@ -42,19 +40,7 @@ export const ingredientsReducer = (store = initialState, action) => {
 				// Запрос закончил своё выполнение
 				ingredientsRequestInProgress: false 
 			};
-		}
-		case SHOW_INGREDIENT_DETAILS: {
-			return { 
-					...store, 
-					selectedIngredient: action.payload
-				};
-			}
-		case HIDE_INGREDIENT_DETAILS: {
-			return { 
-					...store, 
-					selectedIngredient: null
-				};
-			}	
+		}		
 		default: {
 			return store;
 		}

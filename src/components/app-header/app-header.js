@@ -3,24 +3,36 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import IconButton from './icon-button/icon-button';
 import PropTypes from 'prop-types';
+import {NavLink} from 'react-router-dom';
 
-export default function AppHeader(props) {
+export default function AppHeader({activePage, currentUserName}) {
 	function getIconCls(page) {
-		return (props.activePage === page) ? 'primary' : 'secondary';
+		return (activePage === page) ? 'primary' : 'secondary';
 	}
+
+	//TODO подсвечивать активные ссылки
 
 	return (
 		<nav className = {styles.header}>
-			<IconButton	text = 'Конструктор' activePage = {props.activePage}>		
-				<BurgerIcon type = {getIconCls('Конструктор')}/>
-			</IconButton>
-			<IconButton	text = 'Лента заказов' activePage = {props.activePage}>		
-				<ListIcon type = {getIconCls('Лента заказов')}/>
-			</IconButton>				
+			<NavLink to={{ pathname: '/' }} activeClassName = "text_color_primary" >
+				<IconButton	text = 'Конструктор' activePage = {activePage}>		
+					<BurgerIcon type = {getIconCls('Конструктор')}/>
+				</IconButton>
+			</NavLink>	
+
+			<NavLink to={{ pathname: '/orders' }} >
+				<IconButton	text = 'Лента заказов' activePage = {activePage}>		
+					<ListIcon type = {getIconCls('Лента заказов')}/>
+				</IconButton>				
+			</NavLink>
+
 			<Logo />
-			<IconButton	text = 'Личный кабинет' activePage = {props.activePage}>		
-				<ProfileIcon type = {getIconCls('Личный кабинет')}/>
-			</IconButton>				
+
+			<NavLink to={{ pathname: '/profile' }} >
+				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'} activePage = {activePage}>		
+					<ProfileIcon type = {getIconCls('Личный кабинет')}/>
+				</IconButton>				
+			</NavLink>
 		</nav> 
 	)
 }
