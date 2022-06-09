@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import styles from './cart-total.module.css'
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 
 export default function CartTotal(props) {
+
+	let cartIngredients = useSelector(store => store.cart.cartIngredients) || [];
+
 	return (
 		<div className = {`${styles.container} mt-10`}>
 			<div className = "text_type_digits-medium mr-2">
@@ -14,12 +18,14 @@ export default function CartTotal(props) {
 				<CurrencyIcon type = "primary"/>
 			</div>			
 			<div className = "pl-10">
-				<Button  
-					type = "primary" 
-					size = "large"
-					onClick = {props.showOrderDetails}>
-						Оформить заказ
-				</Button>
+				{ cartIngredients.some(item => item.type === 'bun') ? (
+					<Button  
+						type = "primary" 
+						size = "large"
+						onClick = {props.showOrderDetails}>
+							Оформить заказ
+					</Button>
+				) : (null) }	
 			</div>
 		</div>
 	)

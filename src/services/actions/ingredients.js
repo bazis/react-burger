@@ -1,11 +1,9 @@
-import { checkResponse } from '../../utils/check-response';
+import { checkResponse } from '../../utils/api';
 import { baseUrl } from '../rest-api';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_REQUEST_SUCCESS = 'GET_INGREDIENTS_REQUEST_SUCCESS';
 export const GET_INGREDIENTS_REQUEST_FAILED = 'GET_INGREDIENTS_REQUEST_FAILED';
-export const SHOW_INGREDIENT_DETAILS = 'SHOW_INGREDIENT_DETAILS';
-export const HIDE_INGREDIENT_DETAILS = 'HIDE_INGREDIENT_DETAILS';
 
 const ingredientsPath = '/ingredients';	
 

@@ -3,24 +3,39 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import IconButton from './icon-button/icon-button';
 import PropTypes from 'prop-types';
+import { NavLink, useLocation, Link  } from 'react-router-dom';
 
-export default function AppHeader(props) {
-	function getIconCls(page) {
-		return (props.activePage === page) ? 'primary' : 'secondary';
+export default function AppHeader({ currentUserName}) {
+
+	const { pathname } = useLocation();
+
+	function getIconCls(path) {
+		return (pathname === path) ? 'primary' : 'secondary';
 	}
 
 	return (
 		<nav className = {styles.header}>
-			<IconButton	text = 'Конструктор' activePage = {props.activePage}>		
-				<BurgerIcon type = {getIconCls('Конструктор')}/>
-			</IconButton>
-			<IconButton	text = 'Лента заказов' activePage = {props.activePage}>		
-				<ListIcon type = {getIconCls('Лента заказов')}/>
-			</IconButton>				
-			<Logo />
-			<IconButton	text = 'Личный кабинет' activePage = {props.activePage}>		
-				<ProfileIcon type = {getIconCls('Личный кабинет')}/>
-			</IconButton>				
+			<NavLink to={{ pathname: '/' }} exact activeClassName = "text_color_primary" >
+				<IconButton	text = 'Конструктор'>		
+					<BurgerIcon type = {getIconCls('/')}/>
+				</IconButton>
+			</NavLink>	
+
+			<NavLink to = {{ pathname: '/orders' }} exact activeClassName = "text_color_primary">
+				<IconButton	text = 'Лента заказов'>		
+					<ListIcon type = {getIconCls('/orders')}/>
+				</IconButton>				
+			</NavLink>
+
+			<Link to = {"/"} className = {styles.link}>
+				<Logo />
+			</Link>	
+
+			<NavLink to = {{ pathname: '/profile' }} activeClassName = "text_color_primary">
+				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'}>		
+					<ProfileIcon type = {getIconCls('/profile')}/>
+				</IconButton>				
+			</NavLink>
 		</nav> 
 	)
 }

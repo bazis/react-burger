@@ -1,54 +1,55 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import styles from './ingredient.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { ingredient } from '../../../../types';
-import { useDispatch, useSelector } from 'react-redux';
-import { SHOW_INGREDIENT_DETAILS } from '../../../../services/actions/ingredients';
+import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
-export default function Ingredient(props) {
-
-	const dispatch = useDispatch();	
-
-    const openModalWindow = () => {	
-		dispatch({
-			type: SHOW_INGREDIENT_DETAILS,
-			payload: props.ingredientObj
-		});
-    }
+export default function Ingredient({ingredientObj}) {
 
 	const cartIngredients = useSelector(store => store.cart.cartIngredients) || [];
+	const location = useLocation();
 
-	let amount = cartIngredients.filter(item => item._id === props.ingredientObj._id).length;
-	if (props.ingredientObj.type === 'bun') {
+	let amount = cartIngredients.filter(item => item._id === ingredientObj._id).length;
+	if (ingredientObj.type === 'bun') {
 		amount *= 2;
 	}
 	
 	const [{opacity}, dragRef] = useDrag({
         type: "ingredient",
-        item: props.ingredientObj,
+        item: ingredientObj,
         collect: monitor => ({
 			opacity: monitor.isDragging() ? 0.2 : 1
         })
     });
 
-	return (
-		<div className = {styles.container} onClick={openModalWindow} ref={dragRef} style={{opacity}} >
-			{amount > 0 && <Counter count={amount} size="default" />} 			
-			<img className = {styles.image} src={props.ingredientObj.image} alt={props.ingredientObj.name}/>
-			<div className = {styles.price}>
-				<span className = "text_type_digits-default pr-1">
-					{props.ingredientObj.price}
-				</span>
-				<CurrencyIcon type = "primary"/> {/* TODO выровнять по вертикали*/}
-			</div>
-			<div className = {`${styles.itemName} text_type_main-default`}>
-				{props.ingredientObj.name}							
-			</div>		
+	return (		
+		<div className = {styles.container} ref={dragRef} style={{opacity}} >
+			<Link
+				className={styles.link}
+				to={{
+					pathname: `/ingredients/${ingredientObj._id}`,
+					state: {prevLocation: location}
+				}}
+			>
+				{amount > 0 && <Counter count={amount} size="default" />} 			
+				<img className = {styles.image} src={ingredientObj.image} alt={ingredientObj.name}/>
+				<div className = {styles.price}>
+					<span className = "text_type_digits-default pr-1">
+						{ingredientObj.price}
+					</span>
+					<CurrencyIcon type = "primary"/>
+				</div>
+				<div className = {`${styles.itemName} text_type_main-default`}>
+					{ingredientObj.name}							
+				</div>
+			</Link>		
 		</div>	
-			
+		
 	)
 }
 

@@ -3,14 +3,14 @@ import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "../icon-button/icon-button.module.css";
 import PropTypes from 'prop-types';
 
-export default function IconButton(props) {
+export default function IconButton({text, children}) {
 	return (			
 		<Button type="secondary" size="medium">
 			<span className = {styles.icon}>
-				{props.children}									
+				{children}									
 			</span>	
-			<span className = {`${styles.text} ml-2`}>
-				{props.text}
+			<span className = {`${styles.text} text text_type_main-default ml-2`}>
+				{text}
 			</span>
 		</Button>			
 	)

@@ -30,8 +30,7 @@ export const cartReducer = (store = initialState, action) => {
 			return {
 				...store,
 				cartIngredients: (action.payload.type === 'bun') ? 
-				moveBunToFirstPlace([...
-						[...store.cartIngredients.filter(item => item.type !== 'bun'),  //заменяем булку
+				moveBunToFirstPlace([...[...store.cartIngredients.filter(item => item.type !== 'bun'),  //заменяем булку
 						action.payload]
 					]) : 
 					[...store.cartIngredients, action.payload]

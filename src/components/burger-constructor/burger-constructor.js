@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { placeOrder } from '../../services/actions/cart';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/cart';
+import { useHistory } from 'react-router-dom';
 
 
 export default function BurgerConstructor() {	
@@ -18,10 +19,19 @@ export default function BurgerConstructor() {
 
 	let cartIngredients = useSelector(store => store.cart.cartIngredients) || [];
 	const order = useSelector(store => store.cart.order) || {number: 0};
+	const currentUser = useSelector(store => store.user.currentUser);
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 
     const openModalWindow = () => {
+		if(!currentUser) {
+			history.replace({
+				pathname: '/login'
+			});
+			return;
+		}
+
 		setShowModal(true);			
 		dispatch(placeOrder(cartIngredients));	
     }
@@ -104,8 +114,7 @@ export default function BurgerConstructor() {
 				/>) : (<h3>Тяни сюда</h3>)}
 			</div>	
 
-			{showModal && <Modal 
-				visible = {showModal} 				
+			{showModal && <Modal 						
 				onModalClose = {closeModalWindow}>
 					<OrderDetails 
 						orderNumber = {order.number} 

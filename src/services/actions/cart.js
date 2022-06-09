@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { checkResponse } from '../../utils/check-response';
+import { fetchWithRefresh } from '../../utils/api';
 import { baseUrl } from '../rest-api';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
@@ -25,14 +25,14 @@ export function placeOrder(cartIngredients) {
 		  type: PLACE_ORDER_REQUEST
 		});		
 
-		fetch(baseUrl + orderPath, { 
+		fetchWithRefresh(baseUrl + orderPath, { 
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: localStorage.getItem('accessToken')
 			},
 			body: JSON.stringify( { "ingredients" : cartIngredients.map(item => item._id) }) 
-		})
-			.then(checkResponse) 
+		})			
 			.then((res) => {
 				if(res && res.success) {
 					dispatch({
