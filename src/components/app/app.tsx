@@ -18,18 +18,19 @@ import { LoginPage,
 
 import { getIngredients } from '../../services/actions/ingredients';
 import { getUser } from '../../services/actions/user';
-import { ProtectedRoute } from '../../components/protected-route';
+import { ProtectedRoute } from '../protected-route';
 import Modal from '../modal/modal';
+import { TLocation, TLocationState } from '../../types';
 
 
 
 export default function App() {
 	
-	const location = useLocation();
+	const location: TLocationState = useLocation();
 	const history = useHistory();
-	let prevLocation = location.state && location.state.prevLocation;
+	let prevLocation: TLocation = location.state && location.state.prevLocation;
 
-	const dispatch = useDispatch();
+	const dispatch: any = useDispatch();
 
 	useEffect(() => {
 		dispatch(getIngredients());	
@@ -45,24 +46,20 @@ export default function App() {
 	const {
 		ingredientsAll, 
 		ingredientsRequestFailed, 
-		ingredientsRequestInProgress} = useSelector(store => store.ingredients);
-	const currentUser = useSelector(store => store.user.currentUser) || {};
+		ingredientsRequestInProgress} = useSelector((store: any) => store.ingredients);
+	const currentUserName = useSelector((store: any) => store.user.currentUser.name);
 	
 	return (
 		<>
-			<AppHeader currentUserName = {currentUser?.name}/>				
+			<AppHeader currentUserName = {currentUserName}/>				
 			<Switch location = {prevLocation || location}>
 				<Route path="/" exact>
 					<DndProvider backend={HTML5Backend}>
 						<main className={styles.main}>
 							{ingredientsAll.length ? (
 								<>
-									<BurgerIngredients 							
-										className = {`${styles.section} pt-10`}
-									/>
-									<BurgerConstructor 								
-										className = {`${styles.section} pt-25`}
-									/>
+									<BurgerIngredients />
+									<BurgerConstructor />
 								</> ) : (null)
 							}
 

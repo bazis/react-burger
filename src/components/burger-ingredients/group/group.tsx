@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import Ingredient from './ingredient/ingredient'
 import styles from './group.module.css'
-import PropTypes from 'prop-types';
-import { ingredient } from '../../../types/index';
+import { TIngredient } from '../../../types/index';
 
-export default function Group({id, title, ingredients}) {
+export default function Group({id, title, ingredients}: {id: string, title: string, ingredients: TIngredient[]}) {
 	return (
 		<>
 		  	<h2 className = "text_type_main-medium" id = {id}>{title}</h2>
@@ -17,9 +16,5 @@ export default function Group({id, title, ingredients}) {
 				))} 
 			</div>
 		</>
-  )
-}
-
-Group.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredient).isRequired
-}
+	)
+} 

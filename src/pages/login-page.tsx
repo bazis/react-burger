@@ -4,25 +4,27 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import { Link, useLocation, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginFormValue, login } from '../services/actions/user';
+import { TLocationState } from '../types/index';
+
 
 export function LoginPage() {
 
-	const { email, password } = useSelector(store => store.user.login.form);
-	const { requestFailed, requestFailMessage } = useSelector(store => store.user.login);
-	const currentUser = useSelector(store => store.user.currentUser);
+	const { email, password } = useSelector((store: any) => store.user.login.form);
+	const { requestFailed, requestFailMessage } = useSelector((store: any) => store.user.login);
+	const currentUserEmail = useSelector((store: any) => store.user.currentUser.email);
 
 	const dispatch = useDispatch();
-	const location = useLocation();
+	const location: TLocationState = useLocation();
 
-	if(currentUser) {
-		return <Redirect to = {location.state?.from || '/'} />;
+	if(currentUserEmail) {
+		return <Redirect to = {location.state?.prevLocation || '/'} />;
 	}
 
-	const onFormChange = (e) => {			
+	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
         dispatch(setLoginFormValue(e.target.name, e.target.value));
     }
 
-	const onFormSubmit = (e) => {
+	const onFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(login({ email, password }));
     }

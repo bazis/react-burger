@@ -7,17 +7,17 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export function ForgotPasswordPage() {
 
-	const { email } = useSelector(store => store.user.forgotPassword.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector(store => store.user.forgotPassword);
+	const { email } = useSelector((store: any) => store.user.forgotPassword.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.forgotPassword);
 	
 	const dispatch = useDispatch();
 	const location = useLocation()
 
-	const onFormChange = (e) => {			
+	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
         dispatch(setForgotPasswordFormValue(e.target.name, e.target.value));
     }
 
-	const onFormSubmit = (e) => {
+	const onFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(forgotPassword( email ));
     }

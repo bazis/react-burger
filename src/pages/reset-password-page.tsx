@@ -7,9 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export function ResetPasswordPage() {
 
-	const { password, token } = useSelector(store => store.user.resetPassword.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector(store => store.user.resetPassword);
-	const forgotPasswordRequestSuccess = useSelector(store => store.user.forgotPassword.requestSuccess);
+	const { password, token } = useSelector((store: any) => store.user.resetPassword.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.resetPassword);
+	const forgotPasswordRequestSuccess = useSelector((store: any) => store.user.forgotPassword.requestSuccess);
 
 	const dispatch = useDispatch();
 
@@ -21,11 +21,11 @@ export function ResetPasswordPage() {
 	}
 
 
-	const onFormChange = (e) => {			
+	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
         dispatch(setResetPasswordFormValue(e.target.name, e.target.value));
     }
 
-	const onFormSubmit = (e) => {
+	const onFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(resetPassword({ password, token }));
     }

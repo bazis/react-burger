@@ -22,7 +22,10 @@ import {
 } from '../actions/user';
 
 const initialState = {
-	currentUser: null,  // {email, name}
+	currentUser: {
+		name: '',
+		email: ''
+	},
 	registration: {
 		form: {
 			name: '',
@@ -76,7 +79,7 @@ const initialState = {
 	}
 }
 
-export const userReducer = (store = initialState, action) => {
+export const userReducer = (store = initialState, action: any) => {
   	switch (action.type) {
 		case REGISTER_FORM_SET_VALUE:
 			return {
@@ -199,7 +202,7 @@ export const userReducer = (store = initialState, action) => {
 					requestFailMessage: null	
 				}				
 			};				
-		case PROFILE_FORM_RESET:
+		case PROFILE_FORM_RESET:			
 			return {
 				...store,
 				profile: {
@@ -249,7 +252,10 @@ export const userReducer = (store = initialState, action) => {
 		case LOGOUT_REQUEST_SUCCESS:
 			return {
 				...store,	
-				currentUser: null,
+				currentUser: {
+					name: '',
+					email: ''
+				},
 				logout: {
 					...store.logout,
 					requestSuccess: true,

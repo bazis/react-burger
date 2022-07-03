@@ -1,27 +1,31 @@
 import React from 'react';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import IconButton from './icon-button/icon-button';
-import PropTypes from 'prop-types';
+import { IconButton } from './icon-button/icon-button';
 import { NavLink, useLocation, Link  } from 'react-router-dom';
 
-export default function AppHeader({ currentUserName}) {
+export default function AppHeader({currentUserName}: {currentUserName: string}) {
 
 	const { pathname } = useLocation();
 
-	function getIconCls(path) {
+	function getIconCls(path: string) {
 		return (pathname === path) ? 'primary' : 'secondary';
 	}
 
 	return (
 		<nav className = {styles.header}>
-			<NavLink to={{ pathname: '/' }} exact activeClassName = "text_color_primary" >
+			<NavLink 
+				to={{ pathname: '/' }} 
+				exact 
+				activeClassName = {styles.link_active}
+				className = {styles.link}  //TODO
+			>
 				<IconButton	text = 'Конструктор'>		
 					<BurgerIcon type = {getIconCls('/')}/>
 				</IconButton>
 			</NavLink>	
 
-			<NavLink to = {{ pathname: '/orders' }} exact activeClassName = "text_color_primary">
+			<NavLink to = {{ pathname: '/orders' }} exact activeClassName = {styles.link_active}>
 				<IconButton	text = 'Лента заказов'>		
 					<ListIcon type = {getIconCls('/orders')}/>
 				</IconButton>				
@@ -31,15 +35,11 @@ export default function AppHeader({ currentUserName}) {
 				<Logo />
 			</Link>	
 
-			<NavLink to = {{ pathname: '/profile' }} activeClassName = "text_color_primary">
+			<NavLink to = {{ pathname: '/profile' }} activeClassName = {styles.link_active}>
 				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'}>		
 					<ProfileIcon type = {getIconCls('/profile')}/>
 				</IconButton>				
 			</NavLink>
 		</nav> 
 	)
-}
-
-AppHeader.propTypes = {
-	activePage:  PropTypes.string.isRequired
 }

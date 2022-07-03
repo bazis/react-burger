@@ -1,5 +1,7 @@
 import { checkResponse, fetchWithRefresh } from '../../utils/api';
 import { baseUrl } from '../rest-api';
+import { IUserRequest }  from '../../types';
+import { Dispatch } from 'react';
 
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
@@ -46,39 +48,40 @@ const forgotPasswordPath = '/password-reset';
 const resetPasswordPath = '/password-reset/reset';
 
 
-export const setRegisterFormValue = (field, value) => ({
+export const setRegisterFormValue = (field: string, value: string) => ({
 	type: REGISTER_FORM_SET_VALUE,
 	field,
 	value
 });
 
-export const setForgotPasswordFormValue = (field, value) => ({
+export const setForgotPasswordFormValue = (field: string, value: string) => ({
 	type: FORGOT_PASSWORD_FORM_SET_VALUE,
 	field,
 	value
 });
 
-export const setResetPasswordFormValue = (field, value) => ({
+export const setResetPasswordFormValue = (field: string, value: string) => ({
 	type: RESET_PASSWORD_FORM_SET_VALUE,
 	field,
 	value
 });
 
-export const setLoginFormValue = (field, value) => ({
+export const setLoginFormValue = (field: string, value: string) => ({
 	type: LOGIN_FORM_SET_VALUE,
 	field,
 	value
 });
 
-export const setProfileFormValue = (field, value) => ({
+export const setProfileFormValue = (field: string, value: string) => ({
 	type: PROFILE_FORM_SET_VALUE,
 	field,
 	value
 });
 
 
-export function register({name, email, password}) {
-	return function(dispatch) {
+
+export function register({name, email, password} : IUserRequest) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: REGISTER_REQUEST
 		});
@@ -115,8 +118,8 @@ export function register({name, email, password}) {
 	}
 }
 
-export function login({email, password}) {
-	return function(dispatch) {
+export function login({email, password}: Partial<IUserRequest>) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: LOGIN_REQUEST
 		});
@@ -154,7 +157,7 @@ export function login({email, password}) {
 }
 
 export function logout() {
-	return function(dispatch) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: LOGOUT_REQUEST
 		});
@@ -191,8 +194,8 @@ export function logout() {
 	}
 }
 
-export function forgotPassword(email) {
-	return function(dispatch) {
+export function forgotPassword(email: string) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: FORGOT_PASSWORD_REQUEST
 		});
@@ -227,8 +230,8 @@ export function forgotPassword(email) {
 }
 
 
-export function resetPassword({password, token}) {
-	return function(dispatch) {
+export function resetPassword({password, token}: {password: string, token: string}) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: RESET_PASSWORD_REQUEST
 		});
@@ -264,7 +267,12 @@ export function resetPassword({password, token}) {
 }
 
 export function getUser() {	
-	return function(dispatch) {
+	return function(dispatch: any) {
+		const accessToken = localStorage.getItem('accessToken');
+		if(accessToken === null) {
+			return new Error('Missing accessToken');
+		}
+
 		dispatch({
 		  type: GET_USER_REQUEST
 		});
@@ -273,7 +281,7 @@ export function getUser() {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: localStorage.getItem('accessToken')
+				Authorization: accessToken
 			}
 		})			
 			.then((res) => {
@@ -299,8 +307,13 @@ export function getUser() {
 }
 
 
-export function updateUser({ name, email, password }) {
-	return function(dispatch) {
+export function updateUser({ name, email, password }: IUserRequest) {
+	return function(dispatch: any) {
+		const accessToken = localStorage.getItem('accessToken');
+		if(accessToken === null) {
+			return new Error('Missing accessToken');
+		}
+
 		dispatch({
 		  type: PATCH_USER_REQUEST
 		});
@@ -309,7 +322,7 @@ export function updateUser({ name, email, password }) {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: localStorage.getItem('accessToken')
+				Authorization: accessToken
 			},
 			body: JSON.stringify( {name, email, password}) 
 		})			

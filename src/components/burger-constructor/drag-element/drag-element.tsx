@@ -1,16 +1,15 @@
 import React, { useRef } from 'react'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './drag-element.module.css';
-import PropTypes from 'prop-types';
-import { ingredient } from "../../../types/index";
 import { DELETE_INGREDIENT, MOVE_CART_INGREDIENT } from '../../../services/actions/cart';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
+import { TIngredientCart } from '../../../types';
 
-export default function DragElement(props) {	
+export default function DragElement(props: {ingredient: TIngredientCart, index: number}) {
 
 	const dispatch = useDispatch();	
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement>(null);
 	
 	const handleDelete = () => {
 		dispatch({
@@ -32,19 +31,24 @@ export default function DragElement(props) {
 		collect: monitor => ({
 			isOver: monitor.isOver()
 		}),
-		hover(ingredient, monitor) {
+		hover(ingredient: TIngredientCart, monitor) {
 			const dragIndex = ingredient.index;
 			const hoverIndex = props.index;
 			if (dragIndex === hoverIndex) return;
 
-			const hoverBoundingRect = ref.current?.getBoundingClientRect();
-			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
-
-			// if dragging down, continue only when hover is smaller than middle Y
-			if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
-			// if dragging up, continue only when hover is bigger than middle Y
-			if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
+			const draggableEl = ref.current;	
+			if(draggableEl) {
+				const hoverBoundingRect: DOMRect  = draggableEl.getBoundingClientRect();
+				const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+				const clientOffset = monitor.getClientOffset();
+				if (clientOffset) {
+					const hoverActualY = clientOffset.y - hoverBoundingRect.top;
+					// if dragging down, continue only when hover is smaller than middle Y
+					if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
+					// if dragging up, continue only when hover is bigger than middle Y
+					if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
+				}				
+			}			
 
 			dispatch({
 				type: MOVE_CART_INGREDIENT,
@@ -66,7 +70,7 @@ export default function DragElement(props) {
 				opacity: isDrag ? 0.2 : 1
 			}} >
 				<div className = {styles.drag_icon}>			  
-					<DragIcon/>			  
+					<DragIcon type="primary"/>			  
 				</div>          		
 				<ConstructorElement			
 					text = {props.ingredient.name}
@@ -77,8 +81,4 @@ export default function DragElement(props) {
 				/>
 		</div>
   	)
-}
-
-DragElement.propTypes = {
-	ingredient: ingredient	
 }

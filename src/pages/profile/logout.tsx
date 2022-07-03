@@ -5,10 +5,10 @@ import { Redirect } from 'react-router-dom';
 
 export function Logout() {
 
-	const currentUser = useSelector(store => store.user.currentUser);
-	const { requestInProgress, requestSuccess } = useSelector(store => store.user.logout);
+	const currentUserEmail = useSelector((store: any) => store.user.currentUser.email);
+	const { requestInProgress, requestSuccess } = useSelector((store: any) => store.user.logout);
 
-	if(!currentUser) {
+	if(!currentUserEmail) {
 		return <Redirect to = "/login" />;
 	}
 

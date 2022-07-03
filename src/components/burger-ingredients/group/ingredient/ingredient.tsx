@@ -1,20 +1,19 @@
-import React from 'react'
+import React, {FC} from 'react'
 import styles from './ingredient.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { ingredient } from '../../../../types';
+import { TIngredient } from '../../../../types';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 
-export default function Ingredient({ingredientObj}) {
+export default function Ingredient({ingredientObj}: {ingredientObj: TIngredient}) {
 
-	const cartIngredients = useSelector(store => store.cart.cartIngredients) || [];
+	const cartIngredients = useSelector((store: any) => store.cart.cartIngredients) || [];
 	const location = useLocation();
 
-	let amount = cartIngredients.filter(item => item._id === ingredientObj._id).length;
+	let amount = cartIngredients.filter((item: TIngredient) => item._id === ingredientObj._id).length;
 	if (ingredientObj.type === 'bun') {
 		amount *= 2;
 	}
@@ -52,8 +51,3 @@ export default function Ingredient({ingredientObj}) {
 		
 	)
 }
-
-Ingredient.propTypes = {
-	ingredientObj: ingredient
-}
-

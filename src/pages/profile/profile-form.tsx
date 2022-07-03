@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUser, updateUser, setProfileFormValue, PROFILE_FORM_RESET } from '../../services/actions/user';
 
 export function ProfileForm() {
-	const { name, email, password } = useSelector(store => store.user.profile.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector(store => store.user.profile);
-	//const currentUser = useSelector(store => store.user.currentUser);
+	const { name, email, password } = useSelector((store: any) => store.user.profile.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.profile);
 
 	const dispatch = useDispatch();
 
@@ -15,16 +14,16 @@ export function ProfileForm() {
 		dispatch(getUser());
 	}, [dispatch]); //TODO не загружать пользователя, если он уже есть
 
-	const onFormChange = (e) => {			
+	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
         dispatch(setProfileFormValue(e.target.name, e.target.value));
     }
 
-	const onFormSubmit = (e) => {
+	const onFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         dispatch(updateUser({name, email, password}));
     }
 
-	const onClickCancel = e => {
+	const onClickCancel = (e: React.SyntheticEvent) => {
 		dispatch({
 			type: PROFILE_FORM_RESET
 		});
@@ -63,6 +62,7 @@ export function ProfileForm() {
 					<Button 
 						type="secondary" 			
 						size="medium" 
+						htmlType="reset"
 						onClick={onClickCancel}>
 							Отмена
 					</Button>   			
