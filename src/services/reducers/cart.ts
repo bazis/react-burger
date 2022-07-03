@@ -1,3 +1,4 @@
+import { TIngredientCart } from '../../types';
 import {
 	ADD_INGREDIENT, 
 	DELETE_INGREDIENT, 
@@ -14,31 +15,33 @@ const initialState = {
 };
 
 //при добавлении булки в ингридиенты, ставим её в начало массива, чтобы не мешала переставлять элементы при dnd
-const moveBunToFirstPlace = (cartIngredients) => {
+const moveBunToFirstPlace = (cartIngredients: TIngredientCart[]) => {
 	const foundBunIndex = cartIngredients.findIndex(item => item.type === 'bun');
 	if(foundBunIndex !== -1 && cartIngredients.length > 1) {
 		const foundBun = cartIngredients.find(item => item.type === 'bun');
 		cartIngredients.splice(foundBunIndex, 1);
-		cartIngredients.unshift(foundBun);
+		foundBun && cartIngredients.unshift(foundBun);
 	}	
 	return cartIngredients;
 }
 
-export const cartReducer = (store = initialState, action) => {
+export const cartReducer = (store = initialState, action: any) => {
 	switch (action.type) {            
 		case ADD_INGREDIENT:
 			return {
 				...store,
 				cartIngredients: (action.payload.type === 'bun') ? 
-				moveBunToFirstPlace([...[...store.cartIngredients.filter(item => item.type !== 'bun'),  //заменяем булку
-						action.payload]
+				moveBunToFirstPlace([...[...store.cartIngredients
+						.filter((item : TIngredientCart) => item.type !== 'bun'),  //заменяем булку
+							action.payload]
 					]) : 
 					[...store.cartIngredients, action.payload]
 			} 
 		case DELETE_INGREDIENT:      
 			return {
 				...store,
-				cartIngredients: [...store.cartIngredients].filter(item => item.uuid !== action.payload.uuid)        
+				cartIngredients: [...store.cartIngredients]
+					.filter((item : TIngredientCart) => item.uuid !== action.payload.uuid)        
 			} 
 		case PLACE_ORDER_REQUEST: {
 			return {
@@ -73,14 +76,15 @@ export const cartReducer = (store = initialState, action) => {
 			}
 		}
 		case MOVE_CART_INGREDIENT: {
-			const swapItems = (arr, index1, index2) => arr.map((val, idx) => {
+			const swapItems = (arr:  Array<any>, index1: number, index2: number) => arr.map((val, idx) => {
 				if (idx === index1) return arr[index2];
 				if (idx === index2) return arr[index1];
 				return val;
 			});
-
+			
+			
 			//если есть булка, которая не участвует в перетаскивании, индексы надо пересчитать.
-			if(store.cartIngredients.findIndex(item => item.type === 'bun') !== -1) {
+			if(store.cartIngredients.findIndex((item : TIngredientCart) => item.type === 'bun') !== -1) {
 				action.payload.dragIndex++;
 				action.payload.hoverIndex++;
 			}

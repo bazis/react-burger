@@ -5,8 +5,12 @@
 	justify-content: center;
 }
 
-.link {
-	text-decoration: none;
+.link {	
+	color: var(--text-inactive-color);
+}
+
+.link_active {
+	color: var(--text-primary-color);
 }
 
 .text_color_primary span {

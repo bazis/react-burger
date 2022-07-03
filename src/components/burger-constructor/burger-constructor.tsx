@@ -10,6 +10,7 @@ import { placeOrder } from '../../services/actions/cart';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/cart';
 import { useHistory } from 'react-router-dom';
+import { TIngredientCart } from '../../types';
 
 
 export default function BurgerConstructor() {	
@@ -17,15 +18,15 @@ export default function BurgerConstructor() {
 	
 	const [showModal, setShowModal] = useState(false);	
 
-	let cartIngredients = useSelector(store => store.cart.cartIngredients) || [];
-	const order = useSelector(store => store.cart.order) || {number: 0};
-	const currentUser = useSelector(store => store.user.currentUser);
+	let cartIngredients: TIngredientCart[] = useSelector((store: any) => store.cart.cartIngredients) || [];
+	const order: any = useSelector((store: any) => store.cart.order) || {number: 0};
+	const currentUserEmail: any = useSelector((store: any) => store.user.currentUser.email);
 
 	const dispatch = useDispatch();
 	const history = useHistory();
 
     const openModalWindow = () => {
-		if(!currentUser) {
+		if(!currentUserEmail) {
 			history.replace({
 				pathname: '/login'
 			});
@@ -41,7 +42,7 @@ export default function BurgerConstructor() {
 
 	const [{isHover}, dropTarget] = useDrop({
         accept: "ingredient",
-        drop(ingredient) {
+        drop(ingredient: TIngredientCart) {
 			dispatch(addIngredient(ingredient));
         },
         collect: monitor => ({
@@ -55,12 +56,12 @@ export default function BurgerConstructor() {
 
 	let bun = null,		
 		cartTotal = 0,
-		cartIngredientsWithoutBun = [];
+		cartIngredientsWithoutBun: TIngredientCart[] = [];
 
 	if (cartIngredients.length) {				
 
 		cartTotal = cartIngredients.reduce(
-			(total, currentItem) => total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price),
+			(total: number, currentItem: TIngredientCart) => total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price),
 			0
 		);
 
@@ -88,8 +89,7 @@ export default function BurgerConstructor() {
 
 					<section className = {`${styles.drag_list} custom-scroll pr-2 mt-4 mb-4`}>
 						{cartIngredientsWithoutBun.map((ingredient, index) => (
-							<DragElement 
-								className = {styles.drag_element}							
+							<DragElement 													
 								key = {ingredient.uuid}
 								ingredient = {ingredient}
 								index = {index}				

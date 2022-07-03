@@ -1,13 +1,14 @@
-import React, { useRef, useState, createRef, useMemo } from 'react';
+import React, { useRef, useState, createRef, useMemo, FC } from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import Group from './group/group';
 import IngredientDetails from '../ingredients-details/ingredients-details';
 import Modal from '../modal/modal';
 import { useSelector } from 'react-redux';
-import { HIDE_INGREDIENT_DETAILS } from '../../services/actions/ingredients';
+import { TIngredient } from '../../types';
 
 export default function BurgerIngredients() {
+
 	const groupsArr = [
 		{type: 'bun', name: 'Булки'}, 
 		{type: 'sauce', name: 'Соусы'}, 
@@ -16,9 +17,9 @@ export default function BurgerIngredients() {
 
 	const [activeTab, setActiveTab] = useState('bun');
  
-	const ingredientsAll = useSelector(store => store.ingredients.ingredientsAll) || [];	
+	const ingredientsAll: any = useSelector((store: any) => store.ingredients.ingredientsAll) || [];	
 	
-	const onTabClick = (tab) => {
+	const onTabClick = (tab: string) => {
 		setActiveTab(tab);	
 		const group = document.getElementById('group_' + tab);		
 		if (group) {
@@ -26,18 +27,26 @@ export default function BurgerIngredients() {
 		}
 	}
 
-	const handleScroll = (e) => {
+	const handleScroll = (e: React.MouseEvent<HTMLDivElement>) => {
 
-		const topY = e.currentTarget.offsetTop;
+		const topElement = e.currentTarget as HTMLElement;
+		const topY: number = topElement.offsetTop;
 		// console.log('topY', topY);
 		// console.log(document.getElementById('group_bun').getBoundingClientRect().y);
 		// console.log(document.getElementById('group_sauce').getBoundingClientRect().y);
 		// console.log(document.getElementById('group_main').getBoundingClientRect().y);
 
-		const nearestGroup = groupsArr.reduce((a, b) => {					
-			return (Math.abs(document.getElementById('group_' + a.type).getBoundingClientRect().y - topY) <
-				Math.abs(document.getElementById('group_' + b.type).getBoundingClientRect().y - topY)) ?
+		const nearestGroup = groupsArr.reduce((a, b) => {				
+
+			const groupBoxA: HTMLElement | null =  document.getElementById('group_' + a.type),
+					groupBoxB: HTMLElement | null =  document.getElementById('group_' + b.type)
+
+			if(groupBoxA && groupBoxB) {
+				return (Math.abs(groupBoxA.getBoundingClientRect().y - topY) <
+				Math.abs(groupBoxB.getBoundingClientRect().y - topY)) ?
 				a : b;			
+			}
+			return a;			
 		});
 				
         setActiveTab(nearestGroup.type);
@@ -45,24 +54,28 @@ export default function BurgerIngredients() {
    
 	return (
 		<>
-			<div className = {`${styles.container} pt-2`}> {/*TODO почему паддинг не 10? */}
+			<div className = {`${styles.container} pt-10`}>
 				<h1 className = "text_type_main-large">Соберите бургер</h1>
 				<nav className = {styles.tabs}>          
 					{groupsArr.map((group, index) => (
 						<Tab 
 							key = {index}
 							onClick = {() => onTabClick(group.type)}
-							active = {group.type === activeTab}  >                             
+							active = {group.type === activeTab}  
+							value = {group.type}	
+						>                             
 								{group.name}
 						</Tab>        
 					))}                    
 				</nav>
-				<section className = {`${styles.groups} custom-scroll`}  onScroll={(e) => handleScroll(e)}>
+				<section 
+						className = {`${styles.groups} custom-scroll`}  
+						onScroll={(e: React.MouseEvent<HTMLDivElement>) => handleScroll(e)}>
 					{groupsArr.map((group, index) => (
 						<Group 
 							key = {index} 
 							title = {group.name}                          
-							ingredients = {ingredientsAll.filter(ingr => group.type === ingr.type)} 
+							ingredients = {ingredientsAll.filter((ingr: TIngredient) => group.type === ingr.type)} 
 							id = {'group_' + group.type}
 						/>
 					))}               

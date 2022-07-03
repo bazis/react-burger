@@ -1,16 +1,20 @@
+import {FC} from 'react';
 import styles from './order-details.module.css';
-import PropTypes from 'prop-types';
 import doneImage from '../../images/done.png'
 
+interface IOrderDetails {
+	orderNumber: number;
+	orderStatus: string;
+}
 
-export default function OrderDetails(props) {
+export const OrderDetails: FC<IOrderDetails> = ({orderNumber, orderStatus}) => {
 
 	return (
 		<div className = {styles.windowBody}>
-			{props.orderNumber !== 0 ? (
+			{orderNumber !== 0 ? (
 				<>
 					<div className = {`${styles.centerText} text_type_digits-large `}>
-						{props.orderNumber}
+						{orderNumber}
 					</div>    
 					<p className = {`${styles.centerText} mt-8 text text_type_main-medium `}>
 						идентификатор заказа
@@ -26,15 +30,11 @@ export default function OrderDetails(props) {
 					</p>
 				</>
 			) : (
-				<h2>{props.orderStatus}</h2>
+				<h2>{orderStatus}</h2>
 			)}				
 		</div>   
 	)
 }
 
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired,
-	orderStatus: PropTypes.string.isRequired
-}
+export default OrderDetails;
 

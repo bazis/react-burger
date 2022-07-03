@@ -8,7 +8,7 @@ export const GET_INGREDIENTS_REQUEST_FAILED = 'GET_INGREDIENTS_REQUEST_FAILED';
 const ingredientsPath = '/ingredients';	
 
 export function getIngredients() {
-	return function(dispatch) {
+	return function(dispatch: any) {
 		dispatch({
 		  type: GET_INGREDIENTS_REQUEST
 		});

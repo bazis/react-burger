@@ -1,4 +1,5 @@
 import { baseUrl } from "../services/rest-api";
+import { CustomHeaders } from '../types';
 
 const refreshTokenPath = '/auth/token';
 
@@ -13,9 +14,9 @@ const refreshTokenPath = '/auth/token';
 	return Promise.reject(res.status);
 } */
 
-export const checkResponse = (res) => {
+export const checkResponse = (res: Response) => {
 	return res.ok ? res.json() : res.json().then(err => Promise.reject(err))
-  }
+  } 
 
 export const refreshToken = () => {
 	return fetch(baseUrl + refreshTokenPath, {
@@ -26,13 +27,14 @@ export const refreshToken = () => {
 		body: JSON.stringify( { token: localStorage.getItem('refreshToken') }) 
 	}).then(checkResponse);
 };
-
-export const fetchWithRefresh = async (url, options) => {
+// options: Request & {headers: CustomHeaders} TODO
+export const fetchWithRefresh = async (url: string, options: {
+		headers: CustomHeaders, body?: string, method?: string}) => {
 	try {		
 	  	const res = await fetch(url, options);
 	  	return await checkResponse(res);
 	} catch (err) {
-	  	if (err.message === 'jwt expired') {		
+	  	if (err instanceof Error && err.message === 'jwt expired') {		
 			const refreshData = await refreshToken();
 			if(!refreshData.success) {
 				Promise.reject(refreshData);

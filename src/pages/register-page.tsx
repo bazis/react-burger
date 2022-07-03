@@ -4,25 +4,26 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setRegisterFormValue, register } from '../services/actions/user';
+import { TLocationState } from '../types/index';
  
 export function RegisterPage() {
 
-	const { name, email, password } = useSelector(store => store.user.registration.form);
-	const { requestFailed, requestFailMessage } = useSelector(store => store.user.registration);
-	const currentUser = useSelector(store => store.user.currentUser);
+	const { name, email, password } = useSelector((store: any) => store.user.registration.form);
+	const { requestFailed, requestFailMessage } = useSelector((store: any) => store.user.registration);
+	const currentUserEmail = useSelector((store: any) => store.user.currentUser.email);
 
 	const dispatch = useDispatch();
-	const location = useLocation();
+	const location: TLocationState = useLocation();
 
-	if(currentUser) {
-		return <Redirect to = {location.state?.from || '/'} />;
+	if(currentUserEmail) {
+		return <Redirect to = {location.state?.prevLocation || '/'} />;
 	}
 
-	const onFormChange = (e) => {			
+	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
         dispatch(setRegisterFormValue(e.target.name, e.target.value));
     }
 
-	const onFormSubmit = (e) => {
+	const onFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(register({name, email, password}));
     }
