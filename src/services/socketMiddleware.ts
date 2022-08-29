@@ -1,52 +1,44 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 
 import type { TAppDispatch, TRootState } from './store';
-import { 
-	WS_CONNECTION_START,  
-	WS_CONNECTION_STOP,
-	WS_CONNECTION_SUCCESS,
-	WS_CONNECTION_ERROR,
-	WS_CONNECTION_CLOSED,
-	WS_GET_MESSAGE} from '../services/actions/wsActions';
+import { IwsActions } from './actions/wsActions';
 
-
-
-export const socketMiddleware = (): Middleware => {
+export const socketMiddleware = (wsActions: IwsActions): Middleware => {
 	return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {
 		let socket: WebSocket | null = null;
 
 		return  next => (action) => {
 			const { dispatch, getState } = store;
 			const { type, payload } = action;
-			//const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+			const { wsStart, wsStop, onOpen, onClose, onError, onMessage } = wsActions;
 	
 			//Подключаем сокет только если он не был создан или был закрыт
-			if (type === WS_CONNECTION_START && (socket === null || socket.readyState === 3)) {					
+			if (type === wsStart && (socket === null || socket.readyState === 3)) {					
 				socket = new WebSocket(payload.wsUrl + ((typeof payload.token !== 'undefined') ? '?token=' + payload.token : ''));
 				
 				if (socket) {
 
 					// функция, которая вызывается при открытии сокета
 					socket.onopen = event => {
-						dispatch({type: WS_CONNECTION_SUCCESS, payload: event});
+						dispatch({type: onOpen, payload: event});
 					};
 	
 					// функция, которая вызывается при ошибке соединения
 					socket.onerror = event => {
-						dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+						dispatch({ type: onError, payload: event });
 					};			
 	
 					// функция, которая вызывается при закрытии соединения
 					socket.onclose = (event: CloseEvent) => {
-						dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
+						dispatch({ type: onClose, payload: event });
 					};
 	
 					// функция, которая вызывается при получения события от сервера
 					socket.onmessage = (event: MessageEvent) => {              
-						dispatch({type: WS_GET_MESSAGE, payload: JSON.parse(event.data)});
+						dispatch({type: onMessage, payload: JSON.parse(event.data)});
 					}
 				}
-			}else if(socket && type === WS_CONNECTION_STOP) {
+			}else if(socket && type === wsStop) {
 				socket.close();
 			}
 			

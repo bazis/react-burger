@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import styles from './order-info.module.css';
 import { useSelector } from '../../services/store';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { formatDate } from '../../utils/date';
 
 export default function OrderInfo() {
 	const { orderNumber }: {orderNumber: string}  = useParams();
@@ -18,7 +19,8 @@ export default function OrderInfo() {
 	let orderStatus = 'Неизвестно',
 		fullIngredients: TIngredient[] = [],
 		countIngredients: { [key: string]: { ingredient: TIngredient; quantity: number } } = {},
-		totalCost = 0
+		totalCost = 0,
+        orderDate = '';
 
 	useEffect(() => {		
 		const getOrder = () => {
@@ -68,9 +70,9 @@ export default function OrderInfo() {
 			orderStatus = 'Создан';
 		}
 
-		const orderDate = new Date(order.createdAt).toLocaleTimeString()
+		orderDate = formatDate(order.createdAt)
 
-		totalCost = fullIngredients.reduce((total: number, currentItem: TIngredient) => {		
+		totalCost = fullIngredients.reduce((total: number, currentItem) => {		
 			return currentItem ? total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price) : 0;
 		}, 0);
 
@@ -104,7 +106,7 @@ export default function OrderInfo() {
 					</ul>
 				}
 				<div className={`${styles.bottom} mt-10`}>
-					<p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
+					<p className="text text_type_main-default text_color_inactive">{orderDate}</p>
 					<div className={styles.total}>
 						<span className="text text_type_digits-default pr-1">{totalCost}</span>
 						<CurrencyIcon type="primary"/>

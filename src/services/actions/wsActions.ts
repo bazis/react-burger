@@ -6,8 +6,6 @@ export const WS_CONNECTION_SUCCESS = 'WS_CONNECTION_SUCCESS';
 export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
 export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED';
 export const WS_GET_MESSAGE = 'WS_GET_MESSAGE';
-//export const WS_GET_MESSAGE_MY_ORDERS = 'WS_GET_MESSAGE_MY_ORDERS';
-//export const WS_GET_MESSAGE_ALL_ORDERS = 'WS_GET_MESSAGE_ALL_ORDERS';
 export const WS_SEND_MESSAGE = 'WS_SEND_MESSAGE';
 
 
@@ -41,14 +39,7 @@ export interface IwsGetMessage {
 		orders: TWsOrder[]
 	};
 }
-// export interface IwsGetMessageAllOrders {
-// 	readonly type: typeof WS_GET_MESSAGE_ALL_ORDERS;
-// 	payload: {
-// 		total: number,
-// 		totalToday: number,
-// 		orders: TOrder[]
-// 	};
-// }
+
 export interface IwsSendMessage {   
 	readonly type: typeof WS_SEND_MESSAGE;
 	payload: string;
@@ -61,5 +52,23 @@ export type TwsActions =
 	| IwsConnectionError
 	| IwsConnectionClosed
 	| IwsGetMessage
-//	| IwsGetMessageAllOrders
 	| IwsSendMessage;
+
+
+export interface IwsActions {
+    wsStart: typeof WS_CONNECTION_START,
+    wsStop: typeof WS_CONNECTION_STOP,
+    onOpen: typeof WS_CONNECTION_SUCCESS,
+    onClose: typeof WS_CONNECTION_CLOSED,
+    onError: typeof WS_CONNECTION_ERROR,
+    onMessage: typeof WS_GET_MESSAGE
+}
+
+export const wsActions: IwsActions = {
+    wsStart: WS_CONNECTION_START,
+    wsStop: WS_CONNECTION_STOP,
+    onOpen: WS_CONNECTION_SUCCESS,
+    onClose: WS_CONNECTION_CLOSED,
+    onError: WS_CONNECTION_ERROR,
+    onMessage: WS_GET_MESSAGE
+}

@@ -18,7 +18,7 @@ export default function FeedList() {
 
         OrdersWithFullIngredients = ordersArray.map((order) => {
 
-			const fullIngredients: TIngredient[] = order.ingredients.map((ingredientId) => {
+			const fullIngredients = order.ingredients.map((ingredientId) => {
 					
 				const fullIngredient = ingredientsAll.find((ingredient) => ingredient._id === ingredientId);
 				return fullIngredient ? fullIngredient : defaultIngredient(ingredientId);
@@ -47,7 +47,7 @@ export default function FeedList() {
 				
 				<ul className={styles.list}>
 					{
-						OrdersWithFullIngredients.map((item: TOrder) => (
+						OrdersWithFullIngredients.map((item) => (
 							<li key = {item._id}>
 								<OrderListItem 
 									orderObj={item}                           

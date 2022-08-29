@@ -2,13 +2,14 @@ import { TOrder, TIngredient } from '../../types';
 import styles from './order-list-item.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useLocation } from "react-router-dom";
+import { formatDate } from '../../utils/date';
 
 export default function OrderListItem({orderObj}: {orderObj: TOrder}) {
 	const location = useLocation();
 
 	const maxIngredientsShow = 6;
 	
-	const totalCost = orderObj.ingredients.reduce((total: number, currentItem: TIngredient) => {		
+	const totalCost = orderObj.ingredients.reduce((total: number, currentItem) => {		
 		return currentItem ? total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price) : 0;
 	}, 0);
 
@@ -20,7 +21,7 @@ export default function OrderListItem({orderObj}: {orderObj: TOrder}) {
 	
 	//TODO сортировка с первой булкой
 	//TODO сегодня вчера в дате
-	const orderDate = new Date(orderObj.createdAt).toLocaleTimeString()
+	const orderDate = formatDate(orderObj.createdAt)
 
 	return (
 		<NavLink 

@@ -11,6 +11,7 @@ import { socketMiddleware } from './socketMiddleware';
 import { TCartActions } from './actions/cart';
 import { TIngredientsActions } from './actions/ingredients';
 import { TUserActions } from './actions/user';
+import { wsActions} from  './actions/wsActions';
 
 
 declare global {
@@ -25,7 +26,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const wsUrlMyOrders = 'wss://norma.nomoreparties.space/orders';
 export const wsUrlAllOrders = 'wss://norma.nomoreparties.space/orders/all';
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware()));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
 
 export const store = createStore(rootReducer, enhancer); 

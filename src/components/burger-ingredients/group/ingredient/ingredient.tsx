@@ -13,7 +13,7 @@ export default function Ingredient({ingredientObj}: {ingredientObj: TIngredient}
 	const cartIngredients = useSelector((store) => store.cart.cartIngredients) || [];
 	const location = useLocation();
 
-	let amount = cartIngredients.filter((item: TIngredient) => item._id === ingredientObj._id).length;
+	let amount = cartIngredients.filter((item) => item._id === ingredientObj._id).length;
 	if (ingredientObj.type === 'bun') {
 		amount *= 2;
 	}

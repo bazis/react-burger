@@ -8,7 +8,7 @@ export default function FeedStat() {
 		totalOrders, 
 		totalOrdersToday } = useSelector(store => store.ws);  
         
-    const readyOrders = ordersArray.filter((order) => order.status === OrderStatuses.done) 
+    const readyOrders = ordersArray.filter((order) => order.status === OrderStatuses.done).slice(0, 20)
     const pendingOrders = ordersArray.filter((order) => order.status === OrderStatuses.pending)   
 
 	return (

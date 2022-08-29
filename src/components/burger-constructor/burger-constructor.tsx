@@ -61,7 +61,7 @@ export default function BurgerConstructor() {
 	if (cartIngredients.length) {				
 
 		cartTotal = cartIngredients.reduce(
-			(total: number, currentItem: TIngredientCart) => total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price),
+			(total: number, currentItem) => total + (currentItem.type === 'bun' ? currentItem.price * 2 : currentItem.price),
 			0
 		);
 

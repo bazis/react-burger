@@ -48,7 +48,7 @@ export const cartReducer = (store = initialState, action: TCartActions): TConstr
 				...store,
 				cartIngredients: (action.payload.type === 'bun') ? 
 				moveBunToFirstPlace([...[...store.cartIngredients
-						.filter((item : TIngredientCart) => item.type !== 'bun'),  //заменяем булку
+						.filter((item) => item.type !== 'bun'),  //заменяем булку
 							action.payload]
 					]) : 
 					[...store.cartIngredients, action.payload]
@@ -57,7 +57,7 @@ export const cartReducer = (store = initialState, action: TCartActions): TConstr
 			return {
 				...store,
 				cartIngredients: [...store.cartIngredients]
-					.filter((item : TIngredientCart) => item.uuid !== action.payload.uuid)        
+					.filter((item) => item.uuid !== action.payload.uuid)        
 			} 
 		case PLACE_ORDER_REQUEST: {
 			return {
