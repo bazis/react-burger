@@ -5,7 +5,7 @@ import CartTotal from './cart-total/cart-total';
 import styles from './burger-constructor.module.css'
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { placeOrder } from '../../services/actions/cart';
 import { useDrop } from 'react-dnd';
 import { addIngredient } from '../../services/actions/cart';
@@ -18,9 +18,9 @@ export default function BurgerConstructor() {
 	
 	const [showModal, setShowModal] = useState(false);	
 
-	let cartIngredients: TIngredientCart[] = useSelector((store: any) => store.cart.cartIngredients) || [];
-	const order: any = useSelector((store: any) => store.cart.order) || {number: 0};
-	const currentUserEmail: any = useSelector((store: any) => store.user.currentUser.email);
+	let cartIngredients: TIngredientCart[] = useSelector((store) => store.cart.cartIngredients) || [];
+	const order = useSelector((store) => store.cart.order) || {number: 0};
+	const currentUserEmail = useSelector((store) => store.user.currentUser.email);
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -111,7 +111,7 @@ export default function BurgerConstructor() {
 				{cartTotal !== 0 ? (<CartTotal 
 					total = {cartTotal} 
 					showOrderDetails = {openModalWindow}
-				/>) : (<h3>Тяни сюда</h3>)}
+				/>) : (<h2 className='text text_type_main-meduim'>Тяни сюда</h2>)}
 			</div>	
 
 			{showModal && <Modal 						

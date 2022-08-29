@@ -2,21 +2,21 @@ import React from 'react';
 import styles from './common.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from '../services/store';
 import { setLoginFormValue, login } from '../services/actions/user';
 import { TLocationState } from '../types/index';
 
 
 export function LoginPage() {
 
-	const { email, password } = useSelector((store: any) => store.user.login.form);
-	const { requestFailed, requestFailMessage } = useSelector((store: any) => store.user.login);
-	const currentUserEmail = useSelector((store: any) => store.user.currentUser.email);
+	const { email, password } = useSelector((store) => store.user.login.form);
+	const { requestFailed, requestFailMessage } = useSelector((store) => store.user.login);
+	const currentUser = useSelector((store) => store.user.currentUser);
 
 	const dispatch = useDispatch();
 	const location: TLocationState = useLocation();
 
-	if(currentUserEmail) {
+	if(currentUser.email && !currentUser.userIsLoading) {
 		return <Redirect to = {location.state?.prevLocation || '/'} />;
 	}
 
@@ -41,7 +41,7 @@ export function LoginPage() {
 						value={email}
 						placeholder="E-mail"
 						error={requestFailed}
-						errorText={requestFailMessage}
+						errorText={requestFailMessage ? requestFailMessage: undefined}
 					/>
 				</div>
 				<div className="mt-6">

@@ -1,5 +1,5 @@
-import { nodeModuleNameResolver } from 'typescript';
 import {
+	TUserActions,
 	REGISTER_FORM_SET_VALUE,
 	REGISTER_REQUEST_SUCCESS,
 	REGISTER_REQUEST_FAILED,
@@ -10,10 +10,12 @@ import {
 	FORGOT_PASSWORD_REQUEST_SUCCESS,
 	FORGOT_PASSWORD_REQUEST_FAILED,
 	LOGIN_FORM_SET_VALUE,
+	LOGIN_REQUEST,
 	LOGIN_REQUEST_SUCCESS,
 	LOGIN_REQUEST_FAILED,
 	PROFILE_FORM_SET_VALUE,
 	PROFILE_FORM_RESET,
+	GET_USER_REQUEST,
 	GET_USER_REQUEST_SUCCESS,
 	GET_USER_REQUEST_FAILED,
 	PATCH_USER_REQUEST_SUCCESS,
@@ -21,10 +23,70 @@ import {
 	LOGOUT_REQUEST_SUCCESS
 } from '../actions/user';
 
-const initialState = {
+
+type TConstructorStateUser = {
+	currentUser: {
+		name: string,
+		email: string,
+		userIsLoading?: boolean
+	},
+	registration: {
+		form: {
+			name: string,
+			email: string,
+			password: string
+		},		
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	},
+	forgotPassword: {
+		form: {
+			email: string
+		},
+		requestSuccess: boolean,
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	},
+	resetPassword: {
+		form: {			
+			password: string,
+			token: string
+		},
+		requestSuccess: boolean,
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	},
+	login: {
+		form: {			
+			email: string,
+			password: string
+		},		
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	},
+	profile: {
+		form: {			
+			name: string,
+			email: string,
+			password: string
+		},
+		requestSuccess: boolean,		
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	},
+	logout: {
+		requestInProgress: boolean,
+		requestSuccess: boolean,
+		requestFailed: boolean,
+		requestFailMessage: string | null
+	}
+}
+
+const initialState: TConstructorStateUser = {
 	currentUser: {
 		name: '',
-		email: ''
+		email: '',
+		userIsLoading: true
 	},
 	registration: {
 		form: {
@@ -67,7 +129,8 @@ const initialState = {
 			name: '',
 			email: '',
 			password: ''
-		},		
+		},	
+		requestSuccess: false,	
 		requestFailed: false,
 		requestFailMessage: null
 	},
@@ -79,7 +142,7 @@ const initialState = {
 	}
 }
 
-export const userReducer = (store = initialState, action: any) => {
+export const userReducer = (store = initialState, action: TUserActions): TConstructorStateUser => {
   	switch (action.type) {
 		case REGISTER_FORM_SET_VALUE:
 			return {
@@ -88,7 +151,7 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.registration,
 					form: {
 						...store.registration.form,
-						[action.field]: action.value
+						[action.payload.field]: action.payload.value
 					},
 					requestFailed: false,
 					requestFailMessage: null	
@@ -98,7 +161,8 @@ export const userReducer = (store = initialState, action: any) => {
 		case REGISTER_REQUEST_SUCCESS : 
 			return {
 				...store,
-				currentUser: action.user	
+				currentUser: action.payload.user,
+				
 			};		
 		case REGISTER_REQUEST_FAILED : 
 			return {
@@ -106,7 +170,7 @@ export const userReducer = (store = initialState, action: any) => {
 				registration: {
 					...store.registration,
 					requestFailed: true,
-					requestFailMessage: action.message
+					requestFailMessage: action.payload.message
 				}								
 			};		
 		case FORGOT_PASSWORD_FORM_SET_VALUE: 
@@ -116,7 +180,7 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.forgotPassword,
 					form: {
 						...store.forgotPassword.form,
-						[action.field]: action.value
+						[action.payload.field]: action.payload.value
 					},
 					requestFailed: false,
 					requestFailMessage: null	
@@ -136,7 +200,7 @@ export const userReducer = (store = initialState, action: any) => {
 				forgotPassword: {
 					...store.forgotPassword,
 					requestFailed: true,
-					requestFailMessage: action.message
+					requestFailMessage: action.payload.message
 				}								
 			};		
 		case RESET_PASSWORD_FORM_SET_VALUE: 
@@ -146,7 +210,7 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.resetPassword,
 					form: {
 						...store.resetPassword.form,
-						[action.field]: action.value
+						[action.payload.field]: action.payload.value
 					}	
 				}				
 			};	
@@ -164,7 +228,7 @@ export const userReducer = (store = initialState, action: any) => {
 				resetPassword: {
 					...store.resetPassword,
 					requestFailed: true,
-					requestFailMessage: action.message
+					requestFailMessage: action.payload.message
 				}								
 			};		
 		case LOGIN_FORM_SET_VALUE: 
@@ -174,7 +238,7 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.login,
 					form: {
 						...store.login.form,
-						[action.field]: action.value
+						[action.payload.field]: action.payload.value
 					},
 					requestFailed: false,
 					requestFailMessage: null	
@@ -186,8 +250,12 @@ export const userReducer = (store = initialState, action: any) => {
 				login: {
 					...store.login,
 					requestFailed: true,
-					requestFailMessage: action.message
-				}								
+					requestFailMessage: action.payload.message
+				},
+				currentUser: {
+					...store.currentUser,
+					userIsLoading: false				
+				}									
 			};	
 		case PROFILE_FORM_SET_VALUE:
 			return {
@@ -196,7 +264,7 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.profile,
 					form: {
 						...store.profile.form,
-						[action.field]: action.value
+						[action.payload.field]: action.payload.value
 					},
 					requestFailed: false,
 					requestFailMessage: null	
@@ -213,7 +281,16 @@ export const userReducer = (store = initialState, action: any) => {
 						email: store.currentUser.email
 					}					
 				}				
-			};	
+			};
+		case LOGIN_REQUEST:		
+		case GET_USER_REQUEST:			
+			return {
+				...store,
+				currentUser: {
+					...store.currentUser,
+					userIsLoading: true				
+				}				
+			};	    
 		case GET_USER_REQUEST_SUCCESS: 
 		case PATCH_USER_REQUEST_SUCCESS:
 			return {
@@ -222,14 +299,14 @@ export const userReducer = (store = initialState, action: any) => {
 					...store.profile,
 					form: {
 						...store.profile.form,
-						email: action.user.email,
-						name: action.user.name
+						email: action.payload.user.email,
+						name: action.payload.user.name
 					},
 					requestSuccess: true,
 					requestFailed: false,
 					requestFailMessage: null
 				},
-				currentUser: action.user								
+				currentUser: action.payload.user								
 			};		
 		case GET_USER_REQUEST_FAILED:
 			return {
@@ -237,8 +314,12 @@ export const userReducer = (store = initialState, action: any) => {
 				profile: {
 					...store.profile,						
 					requestFailed: true,
-					requestFailMessage: action.message	
-				}				
+					requestFailMessage: action.payload.message	
+				},
+				currentUser: {
+					...store.currentUser,
+					userIsLoading: false				
+				}					
 			};	
 		case LOGOUT_REQUEST: {
 			return {
@@ -254,7 +335,8 @@ export const userReducer = (store = initialState, action: any) => {
 				...store,	
 				currentUser: {
 					name: '',
-					email: ''
+					email: '',
+					userIsLoading: false
 				},
 				logout: {
 					...store.logout,

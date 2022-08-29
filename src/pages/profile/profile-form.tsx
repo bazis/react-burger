@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import styles from '../common.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from '../../services/store';
 import { getUser, updateUser, setProfileFormValue, PROFILE_FORM_RESET } from '../../services/actions/user';
 
 export function ProfileForm() {
-	const { name, email, password } = useSelector((store: any) => store.user.profile.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.profile);
+	const { name, email, password } = useSelector((store) => store.user.profile.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store) => store.user.profile);
 
 	const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ export function ProfileForm() {
 						value={email}
 						placeholder="Логин(E-mail)"
 						error={requestFailed}
-						errorText={requestFailMessage}
+						errorText={requestFailMessage ? requestFailMessage : undefined}
 					/>
 				</div>
 				<div className="mt-6">
@@ -75,7 +75,7 @@ export function ProfileForm() {
 				</div>        	
 			</form>
 		) : (
-			<h1 className = {`${styles.container} text_type_main-medium`}>Загрузка...</h1>
+			<h1 className = {`${styles.container} text text_type_main-large`}>Загрузка...</h1>
 		)
 	);
 }

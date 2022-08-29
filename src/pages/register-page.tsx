@@ -2,15 +2,15 @@ import React from 'react';
 import styles from './common.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/store';
 import { setRegisterFormValue, register } from '../services/actions/user';
 import { TLocationState } from '../types/index';
  
 export function RegisterPage() {
 
-	const { name, email, password } = useSelector((store: any) => store.user.registration.form);
-	const { requestFailed, requestFailMessage } = useSelector((store: any) => store.user.registration);
-	const currentUserEmail = useSelector((store: any) => store.user.currentUser.email);
+	const { name, email, password } = useSelector((store) => store.user.registration.form);
+	const { requestFailed, requestFailMessage } = useSelector((store) => store.user.registration);
+	const currentUserEmail = useSelector((store) => store.user.currentUser.email);
 
 	const dispatch = useDispatch();
 	const location: TLocationState = useLocation();
@@ -50,7 +50,7 @@ export function RegisterPage() {
 						value={email}
 						placeholder="E-mail"
 						error={requestFailed}
-						errorText={requestFailMessage}
+						errorText={requestFailMessage ? requestFailMessage : undefined}
 					/>
 				</div>
 				<div className="mt-6">

@@ -3,12 +3,12 @@ import styles from './common.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { forgotPassword, setForgotPasswordFormValue } from '../services/actions/user';
-import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector, useDispatch } from '../services/store'; 
 
 export function ForgotPasswordPage() {
 
-	const { email } = useSelector((store: any) => store.user.forgotPassword.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.forgotPassword);
+	const { email } = useSelector((store) => store.user.forgotPassword.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store) => store.user.forgotPassword);
 	
 	const dispatch = useDispatch();
 	const location = useLocation()
