@@ -1,8 +1,7 @@
 import { checkResponse, fetchWithRefresh } from '../../utils/api';
 import { baseUrl } from '../rest-api';
 import { IUserRequest }  from '../../types';
-import { TAppDispatch } from '../store';
-import { Dispatch } from 'react';
+import { TAppDispatch, TAppThunk } from '../store';
 
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
@@ -189,7 +188,7 @@ export const setProfileFormValue = (field: string, value: string) => ({
 
 
 
-export function register({name, email, password} : IUserRequest) {
+export const register: TAppThunk = ({name, email, password} : IUserRequest) => {
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: REGISTER_REQUEST
@@ -227,7 +226,7 @@ export function register({name, email, password} : IUserRequest) {
 	}
 }
 
-export function login({email, password}: Partial<IUserRequest>) {
+export const login: TAppThunk = ({email, password}: Partial<IUserRequest>) => {
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: LOGIN_REQUEST
@@ -265,7 +264,7 @@ export function login({email, password}: Partial<IUserRequest>) {
 	}
 }
 
-export function logout() {
+export const logout: TAppThunk = () => {	
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: LOGOUT_REQUEST
@@ -303,7 +302,7 @@ export function logout() {
 	}
 }
 
-export function forgotPassword(email: string) {
+export const forgotPassword: TAppThunk = (email: string) => {	
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: FORGOT_PASSWORD_REQUEST
@@ -340,7 +339,7 @@ export function forgotPassword(email: string) {
 }
 
 
-export function resetPassword({password, token}: {password: string, token: string}) {
+export const resetPassword: TAppThunk = ({password, token}: {password: string, token: string}) => {
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: RESET_PASSWORD_REQUEST
@@ -376,8 +375,8 @@ export function resetPassword({password, token}: {password: string, token: strin
 	}
 }
 
-export function getUser() {	
-	return function(dispatch: TAppDispatch) {
+export const getUser: TAppThunk = () => {	
+	return function(dispatch) {
 		const accessToken = localStorage.getItem('accessToken');
 		if(accessToken === null) {
 			return new Error('Missing accessToken');
@@ -417,7 +416,7 @@ export function getUser() {
 }
 
 
-export function updateUser({ name, email, password }: IUserRequest) {
+export const updateUser: TAppThunk = ({ name, email, password }: IUserRequest) => {
 	return function(dispatch: TAppDispatch) {
 		const accessToken = localStorage.getItem('accessToken');
 		if(accessToken === null) {

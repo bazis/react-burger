@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { fetchWithRefresh } from '../../utils/api';
 import { baseUrl } from '../rest-api';
 import { TIngredientCart, TIngredient, TOrder } from '../../types';
-import { TAppDispatch } from '../store';
-import { Dispatch } from 'react';
+import { TAppDispatch, TAppThunk } from '../store';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
@@ -43,7 +42,7 @@ export const addIngredient = (ingredient: TIngredientCart) => ({
 	}
 });
 
-export function placeOrder(cartIngredients: TIngredientCart[]) {
+export const placeOrder: TAppThunk = (cartIngredients: TIngredientCart[]) => {	
 	return function(dispatch: TAppDispatch) { 
 		const accessToken = localStorage.getItem('accessToken');
 		if(accessToken === null) {

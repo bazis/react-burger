@@ -1,7 +1,7 @@
 import { checkResponse } from '../../utils/api';
 import { baseUrl } from '../rest-api';
 import { TIngredient } from '../../types';
-import { TAppDispatch } from '../store';
+import { TAppDispatch, TAppThunk } from '../store';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_REQUEST_SUCCESS = 'GET_INGREDIENTS_REQUEST_SUCCESS';
@@ -20,7 +20,7 @@ export type TIngredientsActions =
 
 const ingredientsPath = '/ingredients';	
 
-export function getIngredients() {
+export const getIngredients: TAppThunk = () => {	
 	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: GET_INGREDIENTS_REQUEST
