@@ -4,7 +4,7 @@ import { NavLink, Switch, Route } from 'react-router-dom';
 import { ProfileForm } from './profile-form';
 import { Orders } from './orders';
 import { Logout } from './logout';
-import { useDispatch } from "react-redux";
+import { useDispatch } from '../../services/store';
 import { logout } from '../../services/actions/user';
 
 export function ProfilePage() {

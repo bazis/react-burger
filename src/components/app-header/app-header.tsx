@@ -25,7 +25,7 @@ export default function AppHeader({currentUserName}: {currentUserName: string}) 
 				</IconButton>
 			</NavLink>	
 
-			<NavLink to = {{ pathname: '/orders' }} exact activeClassName = {styles.link_active}>
+			<NavLink to = {{ pathname: '/feed' }} exact activeClassName = {styles.link_active}>
 				<IconButton	text = 'Лента заказов'>		
 					<ListIcon type = {getIconCls('/orders')}/>
 				</IconButton>				

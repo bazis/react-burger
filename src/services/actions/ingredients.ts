@@ -1,14 +1,27 @@
 import { checkResponse } from '../../utils/api';
 import { baseUrl } from '../rest-api';
+import { TIngredient } from '../../types';
+import { TAppDispatch, TAppThunk } from '../store';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_REQUEST_SUCCESS = 'GET_INGREDIENTS_REQUEST_SUCCESS';
 export const GET_INGREDIENTS_REQUEST_FAILED = 'GET_INGREDIENTS_REQUEST_FAILED';
 
+
+export type TIngredientsActions =
+	{
+		type: typeof GET_INGREDIENTS_REQUEST;	
+	} | {
+		type: typeof GET_INGREDIENTS_REQUEST_SUCCESS;
+		payload: TIngredient[];
+	} | {
+		type: typeof GET_INGREDIENTS_REQUEST_FAILED;	
+	}
+
 const ingredientsPath = '/ingredients';	
 
-export function getIngredients() {
-	return function(dispatch: any) {
+export const getIngredients: TAppThunk = () => {	
+	return function(dispatch: TAppDispatch) {
 		dispatch({
 		  type: GET_INGREDIENTS_REQUEST
 		});

@@ -1,11 +1,11 @@
 import styles from './ingredients-details.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { useParams } from 'react-router';
 import { TIngredient } from '../../types';
 
 export default function IngredientDetails() {
 
-	const ingredientsAll = useSelector((store: any) => store.ingredients.ingredientsAll) || [];   
+	const ingredientsAll = useSelector((store) => store.ingredients.ingredientsAll) || [];   
 	const { id }: {id: string}  = useParams();
 
 	const ingredientObj = ingredientsAll.find((item: TIngredient )  => item._id === id);
@@ -53,7 +53,7 @@ export default function IngredientDetails() {
 				</ul>			
 			</div> 
 		) : (
-			<h1> Загрузка...</h1>
+			<h1 className='text text_type_main-large'> Загрузка...</h1>
 		)
 	);
 }

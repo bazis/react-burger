@@ -6,6 +6,8 @@ import { ProfilePage} from './profile/profile-page';
 import { Logout} from './profile/logout';
 import { PageNotFound} from './page-not-found';
 import { IngredientPage } from './ingredient-page';
+import { FeedPage } from './feed-page';
+import { OrderInfoPage } from './order-info';
 
 export { 
     LoginPage, 
@@ -15,5 +17,7 @@ export {
     ProfilePage,
     Logout,
     IngredientPage,
+    FeedPage,
+    OrderInfoPage,
     PageNotFound
 };

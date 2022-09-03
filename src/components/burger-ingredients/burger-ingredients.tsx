@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 import Group from './group/group';
 import IngredientDetails from '../ingredients-details/ingredients-details';
 import Modal from '../modal/modal';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { TIngredient } from '../../types';
 
 export default function BurgerIngredients() {
@@ -17,7 +17,7 @@ export default function BurgerIngredients() {
 
 	const [activeTab, setActiveTab] = useState('bun');
  
-	const ingredientsAll: any = useSelector((store: any) => store.ingredients.ingredientsAll) || [];	
+	const ingredientsAll = useSelector((store) => store.ingredients.ingredientsAll) || [];	
 	
 	const onTabClick = (tab: string) => {
 		setActiveTab(tab);	

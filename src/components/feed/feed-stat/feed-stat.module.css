@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderProgress {
+    display: flex;
+    flex-direction: row;
+}
+
+.orderNumbers {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+}
+
+.readyOrder {
+    color: #00CCCC;
+}
+
+.statusColumn {
+    width: 272px;
+}

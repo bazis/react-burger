@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './drag-element.module.css';
 import { DELETE_INGREDIENT, MOVE_CART_INGREDIENT } from '../../../services/actions/cart';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../services/store';
 import { useDrag, useDrop } from 'react-dnd';
 import { TIngredientCart } from '../../../types';
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import styles from './cart-total.module.css'
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../services/store';
 import { TIngredientCart } from '../../../types';
 
 
 export default function CartTotal(props: {total: number, showOrderDetails: () => void}) {
 
-	let cartIngredients = useSelector((store: any) => store.cart.cartIngredients) || [];
+	let cartIngredients = useSelector((store) => store.cart.cartIngredients) || [];
 
 	return (
 		<div className = {`${styles.container} mt-10`}>

@@ -30,7 +30,7 @@ export const OrderDetails: FC<IOrderDetails> = ({orderNumber, orderStatus}) => {
 					</p>
 				</>
 			) : (
-				<h2>{orderStatus}</h2>
+				<h2 className='text text_type_main-large'>{orderStatus}</h2>
 			)}				
 		</div>   
 	)

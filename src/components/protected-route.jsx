@@ -1,14 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/store';
 import { Redirect, Route } from 'react-router-dom';
 
 export function ProtectedRoute({ children, ...rest }) {
-	const currentUserEmail = useSelector((store) => store.user.currentUser.email);
+	const {email, userIsLoading} = useSelector((store) => store.user.currentUser); //по F5 не успевае прогрузиться
+	//const accessToken = localStorage.getItem('accessToken');
+
+    if(!email && userIsLoading) {
+        return <h1 className='text text_type_main-large'>Загрузка</h1>
+    }
 
 	return (
 		<Route
 			{...rest}
 			render = {({ location }) =>
-				currentUserEmail ? (
+                email ? (
 					children
 				) : (
 					<Redirect

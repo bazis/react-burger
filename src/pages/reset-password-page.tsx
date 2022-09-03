@@ -3,13 +3,13 @@ import styles from './common.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect } from 'react-router-dom';
 import { resetPassword, setResetPasswordFormValue } from '../services/actions/user';
-import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector, useDispatch } from '../services/store'; 
 
 export function ResetPasswordPage() {
 
-	const { password, token } = useSelector((store: any) => store.user.resetPassword.form);
-	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store: any) => store.user.resetPassword);
-	const forgotPasswordRequestSuccess = useSelector((store: any) => store.user.forgotPassword.requestSuccess);
+	const { password, token } = useSelector((store) => store.user.resetPassword.form);
+	const { requestSuccess, requestFailed, requestFailMessage } = useSelector((store) => store.user.resetPassword);
+	const forgotPasswordRequestSuccess = useSelector((store) => store.user.forgotPassword.requestSuccess);
 
 	const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ export function ResetPasswordPage() {
 						value={token}					
 						placeholder={'Введите код из письма'}
 						error={requestFailed}
-						errorText={requestFailMessage}
+						errorText={requestFailMessage ? requestFailMessage : undefined}
 					/>
 				</div>		
 				<div className="mt-6">

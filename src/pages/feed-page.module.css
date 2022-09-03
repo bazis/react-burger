@@ -1,0 +1,25 @@
+.container {
+	display: flex;
+	flex-direction: column;	
+	align-items: center;  
+}
+
+.centerContainer {
+    width: 1300px;
+}
+
+.ordersContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;	
+}
+
+.feedContainer {
+	width: 584px;    
+    height: calc(100vh - 180px);  
+    overflow-y: scroll;
+}
+
+.statContainer {
+	width: 626px;
+}

@@ -1,20 +1,28 @@
 import {
+	TIngredientsActions,
 	GET_INGREDIENTS_REQUEST,
 	GET_INGREDIENTS_REQUEST_SUCCESS,
 	GET_INGREDIENTS_REQUEST_FAILED
 } from '../actions/ingredients';
+import { TIngredient } from '../../types';
 
-const initialState = {
+type TConstructorStateIngr = {
+	ingredientsRequestInProgress: boolean,
+	ingredientsRequestFailed: boolean,
+	ingredientsAll: TIngredient[]
+}
+
+const initialState: TConstructorStateIngr = {
 	ingredientsRequestInProgress: false,
 	ingredientsRequestFailed: false,
 	ingredientsAll: []
 }
 
-export const ingredientsReducer = (store = initialState, action: any) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions): TConstructorStateIngr => {
   	switch (action.type) {
 		case GET_INGREDIENTS_REQUEST: {
 			return {
-				...store,
+				...state,
 				// Запрос начал выполняться
 				ingredientsRequestInProgress: true,
 				// Сбрасываем статус наличия ошибок от предыдущего запроса 
@@ -24,7 +32,7 @@ export const ingredientsReducer = (store = initialState, action: any) => {
 		}
 		case GET_INGREDIENTS_REQUEST_SUCCESS: {			
 			return { 
-				...store, 
+				...state, 
 				// Запрос выполнился успешно, помещаем полученные данные в хранилище
 				ingredientsAll: action.payload, 
 				// Запрос закончил своё выполнение
@@ -33,7 +41,7 @@ export const ingredientsReducer = (store = initialState, action: any) => {
 		}
 		case GET_INGREDIENTS_REQUEST_FAILED: {
 		return { 
-				...store, 
+				...state, 
 				// Запрос выполнился с ошибкой, 
 				// выставляем соответсвующие значения в хранилище
 				ingredientsRequestFailed: true, 
@@ -42,7 +50,7 @@ export const ingredientsReducer = (store = initialState, action: any) => {
 			};
 		}		
 		default: {
-			return store;
+			return state;
 		}
 	}
 }

@@ -4,7 +4,8 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import IngredientDetails from '../ingredients-details/ingredients-details';
-import {useDispatch, useSelector} from "react-redux";
+import OrderInfo from '../order-info/order-info';
+import {useDispatch, useSelector} from '../../services/store';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
@@ -13,7 +14,9 @@ import { LoginPage,
 			ForgotPasswordPage, 
 			ResetPasswordPage, 
 			ProfilePage, 
-			IngredientPage,			
+			IngredientPage,	
+			FeedPage,	
+			OrderInfoPage,	
 			PageNotFound } from '../../pages';
 
 import { getIngredients } from '../../services/actions/ingredients';
@@ -30,7 +33,7 @@ export default function App() {
 	const history = useHistory();
 	let prevLocation: TLocation = location.state && location.state.prevLocation;
 
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getIngredients());	
@@ -46,8 +49,8 @@ export default function App() {
 	const {
 		ingredientsAll, 
 		ingredientsRequestFailed, 
-		ingredientsRequestInProgress} = useSelector((store: any) => store.ingredients);
-	const currentUserName = useSelector((store: any) => store.user.currentUser.name);
+		ingredientsRequestInProgress} = useSelector((store) => store.ingredients);
+	const currentUserName = useSelector((store) => store.user.currentUser.name);
 	
 	return (
 		<>
@@ -63,8 +66,8 @@ export default function App() {
 								</> ) : (null)
 							}
 
-							{ingredientsRequestFailed && <h1>Ошибка загрузки данных</h1> }
-							{ingredientsRequestInProgress &&  <h1>Загрузка...</h1> }
+							{ingredientsRequestFailed && <h1 className='text text_type_main-large'>Ошибка загрузки данных</h1> }
+							{ingredientsRequestInProgress &&  <h1 className='text text_type_main-large'>Загрузка...</h1> }
 						</main>		
 					</DndProvider>
 				</Route>	
@@ -80,28 +83,55 @@ export default function App() {
 				<Route path="/reset-password" exact>
 					<ResetPasswordPage />
 				</Route>
+				<ProtectedRoute path="/profile/orders/:orderNumber" exact>
+					<OrderInfoPage />
+				</ProtectedRoute>	
 				<ProtectedRoute path="/profile">
 					<ProfilePage />
 				</ProtectedRoute>		
 				<Route path="/ingredients/:id" exact>
 					<IngredientPage />
-				</Route>	
+				</Route>
+				<Route path="/feed" exact>
+					<FeedPage />
+				</Route>
+				<Route path="/feed/:orderNumber" exact>
+					<OrderInfoPage />
+				</Route>	               
 				<Route>
 					<PageNotFound />
 				</Route>
 			</Switch>	
 			{ prevLocation && (
-				<Route
-					path="/ingredients/:id"
-					children={
-						<Modal 							
-							title = "Детали ингридиента"
-							onModalClose = {closeModalWindow}
-						>
-							<IngredientDetails />
-						</Modal>	
-					}
-				/>
+				<>
+					<Route
+						path="/ingredients/:id"
+						children={
+							<Modal 							
+								title = "Детали ингридиента"
+								onModalClose = {closeModalWindow}
+							>
+								<IngredientDetails />
+							</Modal>	
+						}
+					/>
+					<Route
+						path="/feed/:orderNumber"
+						children={
+							<Modal onModalClose = {closeModalWindow}>
+								<OrderInfo />
+							</Modal>	
+						}
+					/>
+					<ProtectedRoute
+						path="/profile/orders/:orderNumber"
+						children={
+							<Modal onModalClose = {closeModalWindow}>
+								<OrderInfo />
+							</Modal>	
+						}
+					/>
+				</>
 			)}		
 			
 		</>

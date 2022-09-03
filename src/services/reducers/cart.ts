@@ -1,5 +1,6 @@
 import { TIngredientCart } from '../../types';
 import {
+	TCartActions,
 	ADD_INGREDIENT, 
 	DELETE_INGREDIENT, 
 	PLACE_ORDER_REQUEST,
@@ -8,11 +9,26 @@ import {
 	MOVE_CART_INGREDIENT
 } from '../actions/cart';
 
-const initialState = {
-	cartIngredients: [],
+type TConstructorStateCart = {
+	cartIngredients: TIngredientCart[],
+	orderRequestInProgress: boolean,
+	orderRequestFailed: boolean,
+    order: {
+        number: number, 
+        textStatus: string
+    }
+}
+
+const initialState: TConstructorStateCart = {
+	cartIngredients: [] ,
 	orderRequestInProgress: false,
-	orderRequestFailed: false
-};
+	orderRequestFailed: false,
+    order: {
+        number: 0, 
+        textStatus: ''
+    }
+}
+
 
 //при добавлении булки в ингридиенты, ставим её в начало массива, чтобы не мешала переставлять элементы при dnd
 const moveBunToFirstPlace = (cartIngredients: TIngredientCart[]) => {
@@ -25,14 +41,14 @@ const moveBunToFirstPlace = (cartIngredients: TIngredientCart[]) => {
 	return cartIngredients;
 }
 
-export const cartReducer = (store = initialState, action: any) => {
+export const cartReducer = (store = initialState, action: TCartActions): TConstructorStateCart => {
 	switch (action.type) {            
 		case ADD_INGREDIENT:
 			return {
 				...store,
 				cartIngredients: (action.payload.type === 'bun') ? 
 				moveBunToFirstPlace([...[...store.cartIngredients
-						.filter((item : TIngredientCart) => item.type !== 'bun'),  //заменяем булку
+						.filter((item) => item.type !== 'bun'),  //заменяем булку
 							action.payload]
 					]) : 
 					[...store.cartIngredients, action.payload]
@@ -41,7 +57,7 @@ export const cartReducer = (store = initialState, action: any) => {
 			return {
 				...store,
 				cartIngredients: [...store.cartIngredients]
-					.filter((item : TIngredientCart) => item.uuid !== action.payload.uuid)        
+					.filter((item) => item.uuid !== action.payload.uuid)        
 			} 
 		case PLACE_ORDER_REQUEST: {
 			return {
