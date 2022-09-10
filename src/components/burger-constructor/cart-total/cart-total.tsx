@@ -17,11 +17,11 @@ export default function CartTotal(props: {total: number, showOrderDetails: () =>
 			<div className = {styles.currency}>
 				<CurrencyIcon type = "primary"/>
 			</div>			
-			<div className = "pl-10">
+			<div className = "pl-10" data-testid = "place_order_button">
 				{ cartIngredients.some((item: TIngredientCart) => item.type === 'bun') ? (
 					<Button  
 						type = "primary" 
-						size = "large"
+						size = "large"						
 						onClick = {props.showOrderDetails}>
 							Оформить заказ
 					</Button>

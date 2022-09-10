@@ -108,7 +108,7 @@ export default function App() {
 						path="/ingredients/:id"
 						children={
 							<Modal 							
-								title = "Детали ингридиента"
+								title = "Детали ингредиента"
 								onModalClose = {closeModalWindow}
 							>
 								<IngredientDetails />

@@ -17,7 +17,8 @@ export const ModalOverlay: FC<IModalOverlay> = ({onModalClose, children}) =>{
     return (
         <div 
             className = {styles.overlay}             
-            onClick = {closeOnClickOverlay}>
+            onClick = {closeOnClickOverlay}
+			data-testid="modal_overlay">
 
           {children}
         </div>

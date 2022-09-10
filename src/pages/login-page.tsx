@@ -21,13 +21,13 @@ export function LoginPage() {
 	}
 
 	const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {			
-        dispatch(setLoginFormValue(e.target.name, e.target.value));
-    }
+		dispatch(setLoginFormValue(e.target.name, e.target.value));
+	}
 
 	const onFormSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        dispatch(login({ email, password }));
-    }
+		e.preventDefault();
+		dispatch(login({ email, password }));
+	}
 
 	return(
 		<div className={styles.container}>
@@ -51,7 +51,7 @@ export function LoginPage() {
 						value={password}
 					/>
 				</div>    
-				<div className="mt-6">
+				<div className="mt-6" data-testid="login_submit_button">
 					<Button type="primary" htmlType="submit" size="large">
 						Войти
 					</Button>
