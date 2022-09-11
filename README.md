@@ -14,5 +14,7 @@ https://bazis.github.io/react-burger
 
 ## Локальная установка
 git clone https://github.com/bazis/react-burger.git
+
 npm install
+
 npm start
