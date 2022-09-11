@@ -26,7 +26,7 @@ describe('Оформление заказа ', () => {
 		cy.intercept('POST', '/api/auth/login', { fixture: 'login.json' });
 		cy.intercept('GET', '/api/auth/user', { fixture: 'user.json' });
 
-		cy.visit('http://localhost:3000/login');
+		cy.visit('http://localhost:3000/#/login');
 
 		cy.contains('Вход');
 	

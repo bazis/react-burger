@@ -29,7 +29,7 @@
     "deploy": "gh-pages -d build",
     "cypress": "cypress open cache clear"
   },
-  "homepage": "./react-burger/",
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",

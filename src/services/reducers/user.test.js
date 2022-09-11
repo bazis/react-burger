@@ -27,7 +27,7 @@ const initialState = {
 	currentUser: {
 		name: '',
 		email: '',
-		userIsLoading: true
+		userIsLoading: false
 	},
 	registration: {
 		form: {

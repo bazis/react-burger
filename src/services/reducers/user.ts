@@ -86,7 +86,7 @@ const initialState: TConstructorStateUser = {
 	currentUser: {
 		name: '',
 		email: '',
-		userIsLoading: true
+		userIsLoading: false
 	},
 	registration: {
 		form: {
