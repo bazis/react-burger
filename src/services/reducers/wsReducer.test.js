@@ -1,4 +1,4 @@
-import { wsReducer } from './wsReducer';
+import { wsReducer, initialState } from './wsReducer';
 import {
 	WS_CONNECTION_START,
 	WS_CONNECTION_SUCCESS,
@@ -6,13 +6,6 @@ import {
 	WS_CONNECTION_CLOSED,    
 	WS_GET_MESSAGE
 } from '../actions/wsActions';
-
-const initialState = {
-	wsConnected: false,
-	ordersArray: [],
-	totalOrders: 0,
-	totalOrdersToday: 0
-}
 
 
 describe('wsReducer reducer', () => {

@@ -19,7 +19,7 @@ type TConstructorStateCart = {
     }
 }
 
-const initialState: TConstructorStateCart = {
+export const initialState: TConstructorStateCart = {
 	cartIngredients: [] ,
 	orderRequestInProgress: false,
 	orderRequestFailed: false,

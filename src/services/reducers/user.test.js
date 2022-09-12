@@ -1,4 +1,4 @@
-import { userReducer } from './user';
+import { userReducer, initialState } from './user';
 import {
 	REGISTER_FORM_SET_VALUE,
 	REGISTER_REQUEST_SUCCESS,
@@ -23,63 +23,6 @@ import {
 	LOGOUT_REQUEST_SUCCESS
 } from '../actions/user';
 
-const initialState = {
-	currentUser: {
-		name: '',
-		email: '',
-		userIsLoading: false
-	},
-	registration: {
-		form: {
-			name: '',
-			email: '',
-			password: ''
-		},		
-		requestFailed: false,
-		requestFailMessage: null
-	},
-	forgotPassword: {
-		form: {
-			email: ''
-		},
-		requestSuccess: false,
-		requestFailed: false,
-		requestFailMessage: null
-	},
-	resetPassword: {
-		form: {			
-			password: '',
-			token: ''
-		},
-		requestSuccess: false,
-		requestFailed: false,
-		requestFailMessage: null
-	},
-	login: {
-		form: {			
-			email: '',
-			password: ''
-		},		
-		requestFailed: false,
-		requestFailMessage: null
-	},
-	profile: {
-		form: {			
-			name: '',
-			email: '',
-			password: ''
-		},	
-		requestSuccess: false,	
-		requestFailed: false,
-		requestFailMessage: null
-	},
-	logout: {
-		requestInProgress: false,
-		requestSuccess: false,
-		requestFailed: false,
-		requestFailMessage: null
-	}	
-}
 
 const testUser = {
 	email: 'eee@yyy.com',

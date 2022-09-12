@@ -1,4 +1,4 @@
-import { cartReducer } from './cart';
+import { cartReducer, initialState } from './cart';
 import {
 	ADD_INGREDIENT, 
 	DELETE_INGREDIENT, 
@@ -7,16 +7,6 @@ import {
 	PLACE_ORDER_REQUEST_FAILED,
 	MOVE_CART_INGREDIENT
 } from '../actions/cart';
-
-const initialState = {
-	cartIngredients: [],
-	orderRequestInProgress: false,
-	orderRequestFailed: false,
-	order: {
-		number: 0, 
-		textStatus: ''
-	}	
-}
 
 const ingredient1 = {
 	_id: 'myid1',

@@ -82,7 +82,7 @@ type TConstructorStateUser = {
 	}
 }
 
-const initialState: TConstructorStateUser = {
+export const initialState: TConstructorStateUser = {
 	currentUser: {
 		name: '',
 		email: '',

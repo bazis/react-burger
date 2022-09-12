@@ -1,9 +1,11 @@
 
+import { baseLocalUrl } from '../../src/services/rest-api';
+
 describe('Оформление заказа ', () => {
 	it('Страница открывается', () => {
 		cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' });
 
-		cy.visit('http://localhost:3000');
+		cy.visit(baseLocalUrl);
 		cy.contains('Соберите бургер');
 	});
 
@@ -26,7 +28,7 @@ describe('Оформление заказа ', () => {
 		cy.intercept('POST', '/api/auth/login', { fixture: 'login.json' });
 		cy.intercept('GET', '/api/auth/user', { fixture: 'user.json' });
 
-		cy.visit('http://localhost:3000/#/login');
+		cy.visit(baseLocalUrl + '/#/login');
 
 		cy.contains('Вход');
 	
