@@ -19,10 +19,10 @@ export const Modal: FC<IModal> = ({title, children, onModalClose}) => {
 	});
 
 	const closeByEscape = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-            onModalClose();
-        }
-    }
+		if (event.key === "Escape") {
+			onModalClose();
+		}
+	}
 	
 	return ReactDOM.createPortal (		
 		<ModalOverlay onModalClose = {onModalClose}>
@@ -31,7 +31,7 @@ export const Modal: FC<IModal> = ({title, children, onModalClose}) => {
 					<p className = "text text_type_main-medium">
 						{title}
 					</p>   
-					<div className = {styles.closeButton} onClick={onModalClose}>
+					<div className = {styles.closeButton} onClick={onModalClose} data-testid="modal_close_button">
 						<CloseIcon type="primary"/>    
 					</div> 								       
 				</header>

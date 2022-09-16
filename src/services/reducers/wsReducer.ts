@@ -16,7 +16,7 @@ type TConstructorStateWs = {
 	totalOrdersToday: number | undefined
 }
 
-const initialState: TConstructorStateWs = {
+export const initialState: TConstructorStateWs = {
 	wsConnected: false,
 	ordersArray: [],
 	totalOrders: 0,

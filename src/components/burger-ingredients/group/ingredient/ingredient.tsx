@@ -27,7 +27,7 @@ export default function Ingredient({ingredientObj}: {ingredientObj: TIngredient}
     });
 
 	return (		
-		<div className = {styles.container} ref={dragRef} style={{opacity}} >
+		<div className = {styles.container} ref={dragRef} style={{opacity}} data-test="ingredient_container">
 			<Link
 				className={styles.link}
 				to={{

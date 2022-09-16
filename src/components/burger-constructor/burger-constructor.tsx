@@ -65,10 +65,10 @@ export default function BurgerConstructor() {
 			0
 		);
 
-		//находим булку в ингридиентах
+		//находим булку в ингредиентах
 		bun = cartIngredients.find(ingr => ingr.type === 'bun');		
 		
-		//остальные ингридиенты
+		//остальные ингредиенты
 		cartIngredientsWithoutBun = cartIngredients.filter(ingr => ingr.type !== 'bun');
 							
 	}		
@@ -76,7 +76,7 @@ export default function BurgerConstructor() {
 	return (
 		<>
 			<div className = {`${styles.container} pt-25 ml-10`}>
-				<div className = {styles.dropTarget} style={{borderColor}} ref={dropTarget}>
+				<div className = {styles.dropTarget} style={{borderColor}} ref={dropTarget} data-testid="cart_drop_target">
 					{bun && <div className = {styles.bun}>
 								<ConstructorElement
 									type = "top"

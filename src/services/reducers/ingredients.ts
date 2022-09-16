@@ -12,7 +12,7 @@ type TConstructorStateIngr = {
 	ingredientsAll: TIngredient[]
 }
 
-const initialState: TConstructorStateIngr = {
+export const initialState: TConstructorStateIngr = {
 	ingredientsRequestInProgress: false,
 	ingredientsRequestFailed: false,
 	ingredientsAll: []

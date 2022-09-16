@@ -19,7 +19,7 @@ type TConstructorStateCart = {
     }
 }
 
-const initialState: TConstructorStateCart = {
+export const initialState: TConstructorStateCart = {
 	cartIngredients: [] ,
 	orderRequestInProgress: false,
 	orderRequestFailed: false,
@@ -30,7 +30,7 @@ const initialState: TConstructorStateCart = {
 }
 
 
-//при добавлении булки в ингридиенты, ставим её в начало массива, чтобы не мешала переставлять элементы при dnd
+//при добавлении булки в ингредиенты, ставим её в начало массива, чтобы не мешала переставлять элементы при dnd
 const moveBunToFirstPlace = (cartIngredients: TIngredientCart[]) => {
 	const foundBunIndex = cartIngredients.findIndex(item => item.type === 'bun');
 	if(foundBunIndex !== -1 && cartIngredients.length > 1) {

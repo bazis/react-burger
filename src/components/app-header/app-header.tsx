@@ -15,7 +15,7 @@ export default function AppHeader({currentUserName}: {currentUserName: string}) 
 	return (
 		<nav className = {styles.header}>
 			<NavLink 
-				to={{ pathname: '/' }} 
+				to='/' 
 				exact 
 				activeClassName = {styles.link_active}
 				className = {styles.link}  //TODO
@@ -25,17 +25,17 @@ export default function AppHeader({currentUserName}: {currentUserName: string}) 
 				</IconButton>
 			</NavLink>	
 
-			<NavLink to = {{ pathname: '/feed' }} exact activeClassName = {styles.link_active}>
+			<NavLink to = '/feed' exact activeClassName = {styles.link_active}>
 				<IconButton	text = 'Лента заказов'>		
 					<ListIcon type = {getIconCls('/orders')}/>
 				</IconButton>				
 			</NavLink>
 
-			<Link to = {"/"} className = {styles.link}>
+			<Link to = '/' className = {styles.link}>
 				<Logo />
 			</Link>	
 
-			<NavLink to = {{ pathname: '/profile' }} activeClassName = {styles.link_active}>
+			<NavLink to = '/profile' activeClassName = {styles.link_active}>
 				<IconButton	text = {currentUserName ? currentUserName : 'Личный кабинет'}>		
 					<ProfileIcon type = {getIconCls('/profile')}/>
 				</IconButton>				

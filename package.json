@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {    
+  "dependencies": {
     "@ya.praktikum/react-developer-burger-ui-components": "^1.4.2",
     "clsx": "^1.1.1",
     "prop-types": "^15.7.2",
@@ -24,8 +24,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "cypress": "cypress open cache clear"
   },
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -46,7 +50,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.1.10",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
@@ -55,8 +59,14 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
+    "cypress": "^10.7.0",
     "eslint": "^7.19.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^4.0.0",
+    "jest": "^26.6.0",
     "prettier": "^2.2.1",
+    "redux-mock-store": "^1.5.4",
     "typescript": "4.1.3"
   }
 }

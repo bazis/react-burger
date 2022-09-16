@@ -7,7 +7,7 @@ export function IngredientPage() {
 	return (
 		<div className={styles.container}>
 			<h1 className={`${styles.header} text text_type_main-large`}>
-				Детали ингридиента
+				Детали ингредиента
 			</h1>
 			<IngredientDetails />
 		</div>
